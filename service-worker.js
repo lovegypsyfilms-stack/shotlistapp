@@ -16,7 +16,7 @@
    That single line is what makes the phone update.
    ============================================================ */
 
-const VERSION = '2026-09-14-E';
+const VERSION = '2026-09-14-F';
 const CACHE   = 'island-field-' + VERSION;
 
 const SHELL = ['./', './index.html', './sync-config.js', './cloud-sync.js'];
@@ -57,6 +57,11 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   // Firebase and any other cross-origin request goes straight to the network.
   if (url.origin !== self.location.origin) return;
+
+  // The in-app update check (?u=) asks "what is live right now?". Answering it
+  // from this cache would make an offline phone report itself up to date, so
+  // let it reach the network or fail honestly.
+  if (url.searchParams.has('u')) return;
 
   if (req.mode === 'navigate' || isShell(url)) {
     e.respondWith(networkFirst(req));
