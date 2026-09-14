@@ -123,11 +123,5 @@ into app internals with `w.eval('headDrag!==null')`, so renaming a top-level
 Some suites are written ahead of the implementation and describe intended
 behaviour rather than current behaviour. Before "fixing" a failing assertion,
 check whether it is specifying something not built yet — implement to the test
-rather than editing it.
-
-## Known failing test
-
-`test/02-edit.mjs` → "lives in the day header" expects `#editBtn` to be a child
-of `.dayrow`; it currently sits in `.stripRow`. Pre-existing and untouched —
-the fix moves a control the owner uses constantly, so it needs their call, not
-a quiet edit.
+rather than editing it. All five suites pass; a red run means you broke
+something or have work left, not that the suite is unreliable.

@@ -30,7 +30,12 @@ const visible = () => { let el = $(w, '#editBtn'); if (!el) return false;
     if (cs(el).display === 'none') return false;
   return true; };
 t.ok($$(w, '#editBtn').length === 1, 'exactly one EDIT button');
-t.ok($(w, '#editBtn').parentElement.classList.contains('dayrow'), 'lives in the day header');
+// What actually bit was EDIT living inside #locTabs, which hides while
+// filtering, in the PICKUPS view and on any tab with no locations. Pin that,
+// not one particular row — anywhere in the header that does not hide is fine.
+const eb = $(w, '#editBtn');
+t.ok(!!eb && !eb.closest('#locTabs') && !!eb.closest('header.top'),
+     'sits in the header, outside the strip that hides');
 w.eval('state.day=-1; render();'); await wait(220);
 t.ok(visible(), 'still reachable in the PICKUPS view');
 w.eval('state.day=0; render();'); await wait(220);
