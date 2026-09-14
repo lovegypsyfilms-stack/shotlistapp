@@ -99,6 +99,24 @@ button{font:inherit}
 .locSection{scroll-margin-top:2px;padding-bottom:10px}
 .locationHead{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;padding:12px 13px 7px;border-bottom:2px solid #222;margin:0 0 7px}
 .locationHead h2{margin:0;font-size:22px;line-height:.96;font-weight:950;max-width:75%;display:flex;align-items:flex-start;gap:9px}
+/* Each piece of the slate gets its own box, so you land on the one you want
+   instead of scanning a line of unknown length. Place on top, time of day
+   under it, INT/EXT ahead of both and the scene number after them. */
+.slate{display:flex;align-items:flex-start;gap:5px;min-width:0;flex:1 1 auto}
+.slMain{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1 1 auto}
+.slPlace,.slTime,.slIE,.slNo{border:1px solid #d7d4cc;border-radius:6px;
+ display:block;padding:3px 7px;font-weight:900;line-height:1.15;background:#fff}
+.slPlace{font-size:16px;letter-spacing:.005em;overflow-wrap:anywhere}
+.slTime{font-size:9.5px;letter-spacing:.09em;color:#5f5d57;background:#f1f0ea;
+ align-self:flex-start;max-width:100%;overflow-wrap:anywhere}
+.slIE{flex:0 0 auto;font-size:9.5px;letter-spacing:.08em;color:#2b2a26;
+ background:#e9e7e0;white-space:nowrap;margin-top:2px}
+.slNo{flex:0 0 auto;font-size:10.5px;letter-spacing:.05em;background:#111;color:#fff;
+ border-color:#111;white-space:nowrap;margin-top:2px}
+/* In EDIT the raw slate line is what you change, so the boxes step aside. */
+.locName.raw{display:none}
+body.editmode .locName.raw{display:block}
+body.editmode .slate{display:none}
 .stats{font-size:9px;font-weight:950;color:#777;text-align:right;line-height:1.25;white-space:nowrap}
 .scene{margin:0 9px 14px;border-top:1px solid #c7c7c1;padding-top:6px}
 .scene:first-of-type{border-top:0;padding-top:0}
@@ -106,11 +124,20 @@ button{font:inherit}
 .sceneName{font-size:12px;font-weight:950;line-height:1.05}
 .sceneCount{font-size:9px;font-weight:900;color:#777;white-space:nowrap}
 .shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
-.shot{touch-action:manipulation;position:relative;border:1px solid rgba(0,0,0,.07);border-radius:8px;padding:6px 6px 24px;min-height:76px;text-align:left;transition:.12s ease;overflow:hidden}
-.shot.fx30{background:var(--fx)} .shot.mavic{background:var(--mavic)} .shot.fpv{background:var(--fpv)}
-.shot.camera{background:var(--camera)} .shot.call{background:var(--call)} .shot.buy{background:var(--buy)} .shot.gear{background:var(--gear)}
-.shot.book{background:var(--book)} .shot.admin{background:var(--admin)}
-.shot.gopro{background:var(--gopro)} .shot.mission{background:var(--mission)} .shot.probe{background:var(--probe)} .shot.slider{background:var(--slider)}
+.shot{touch-action:manipulation;position:relative;background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:8px;padding:11px 6px 24px;min-height:76px;text-align:left;transition:.12s ease;overflow:hidden}
+/* The rig used to tint the whole card, which washed out the shot text and made
+   twelve pastel blocks read as one mush. It is now a strip along the top: the
+   card stays paper-white at full contrast, and the colour is still the first
+   thing you see. Strip tones are saturated versions of the old pastels —
+   a 5px band of #dcebf7 on white is invisible. */
+.shot.fx30{--strip:#5b9bd5} .shot.camera{--strip:#5b9bd5}
+.shot.mavic{--strip:#4da375} .shot.fpv{--strip:#e08b3a}
+.shot.gopro{--strip:#d8b62a} .shot.mission{--strip:#8b6bb5}
+.shot.probe{--strip:#3f9e5c} .shot.slider{--strip:#c96a6a}
+.shot.call{--strip:#d4a72c} .shot.buy{--strip:#dd9440}
+.shot.gear{--strip:#57a86e} .shot.book{--strip:#5d8fd0} .shot.admin{--strip:#8f8b7d}
+.shot:not(.addTile)::before{content:'';position:absolute;left:0;right:0;top:0;height:5px;
+ background:var(--strip,#c4c2ba);pointer-events:none}
 .shot.done{opacity:.42;filter:grayscale(.45)} .shot.done:after{content:"✓";position:absolute;right:4px;top:0;font-size:20px;font-weight:1000}
 .moveBtn{position:absolute;right:3px;bottom:3px;border:0;background:rgba(255,255,255,.78);color:#222;border-radius:6px;padding:2px 5px;font-size:10px;font-weight:1000;line-height:1}
 .rescheduledTag{font-size:7px;font-weight:1000;letter-spacing:.04em;margin-top:3px;color:#444}
@@ -150,6 +177,7 @@ button:focus-visible{outline:2px solid #111;outline-offset:2px}
 #renameInput{width:100%;padding:11px 10px;border:1px solid #bbb;border-radius:10px;background:#fff;font-size:16px;color:#111;margin:2px 0 8px}
 #sceneRow label{margin-top:7px}
 .addTile{display:flex;align-items:center;justify-content:center;border:0;background:transparent;color:#111;opacity:0;font-size:22px;font-weight:400;padding:6px;min-height:76px;border-radius:8px}
+.addTile{--strip:transparent}
 .addTile span{display:none}
 .addTile:active,.addTile:focus-visible{opacity:.35}
 .emptyAdd{margin:2px 12px}
@@ -183,7 +211,7 @@ button:focus-visible{outline:2px solid #111;outline-offset:2px}
 .loctabs button .pillNum{color:rgba(255,255,255,.5)}
 .loctabs button.on .pillNum{color:rgba(0,0,0,.45)}
 .locNum{flex:0 0 auto;font-size:17px;font-weight:900;color:#a6a69d;background:transparent;padding:0;letter-spacing:.01em;line-height:1.25}
-.dragGhost{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:.95;box-shadow:0 12px 28px rgba(0,0,0,.4);border-radius:8px;padding:6px 6px 24px}
+.dragGhost{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:.95;box-shadow:0 12px 28px rgba(0,0,0,.4);border-radius:8px;padding:11px 6px 24px}
 .shot.dragSource{opacity:.2}
 body.dragging{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .shot.sel{outline:3px solid #111;outline-offset:-3px}
@@ -548,7 +576,7 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
   <button id="backupBtn">Backup / move to another device</button>
   <button id="hapticBtn" class="secondary">Haptics: on</button>
   <button id="updateBtn">Check for update</button>
-  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-09-14-F</button>
+  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-09-14-G</button>
   <button id="closeSheet" class="secondary">Close</button>
 </div></div>
 <div class="sheet" id="durSheet"><div class="sheetBox">
@@ -1216,6 +1244,34 @@ function sceneHTML(s,tone){
  const movedTag=s.movedFrom?`<span class="sceneMoved">FROM ${shortDay(s.movedFrom)}</span>`:'';
  return `<section class="scene tone-${tone||'tbc'}" data-sceneid="${s.id}"><div class="sceneHead"><span class="grip" data-grip="1" aria-hidden="true">⁙</span><button type="button" class="headDel" data-delscene="${s.id}" aria-label="Delete this scene"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.7 4.3h10.6M6.4 4.3V3h3.2v1.3M4.2 4.3l.6 8.2a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9l.6-8.2M6.7 6.7v4.3M9.3 6.7v4.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="sceneName" data-edit="name" data-tapedit="1" data-for="${s.id}">${esc(s.name)}</span>${movedTag}<div class="sceneRight">${durBtnHTML(s.id)}<span class="sceneCount">${countShots(s).done} / ${s.shots.length} COMPLETE</span><button type="button" class="headMoveBtn" data-scenemove="${s.id}" aria-label="Move scene">↗</button></div></div><div class="shots" data-scene="${s.id}">${cards}</div>${notes.length?`<div class="notes" style="margin:5px 0 0">${notes.join(' · ')}</div>`:''}</section>`;
 }
+/* A DIARY script-scene name is a slate line: "SC 7 — EXT. SHED - DAY".
+   Read as one run of text you have to scan it to find anything, so it is split
+   into labelled boxes and the scene number moves to the end, after the place.
+   Parsing is best-effort on purpose — ISLAND and PREP names are free-form, and
+   a name the shoot has renamed by hand may be anything — so anything that does
+   not fit the shape falls back to the plain name, unboxed. */
+function slateParts(name){
+  const m=String(name||'').match(/^SC\s*([0-9]+[A-Z]?)\s*[—–-]\s*(INT\/EXT\.|INT\.|EXT\.|I\/E\.)?\s*(.+)$/i);
+  if(!m) return null;
+  const no=m[1], ie=(m[2]||'').replace(/\.$/,'').toUpperCase();
+  let rest=m[3].trim(), place=rest, time='';
+  // the time of day is the tail after the last " - "; a place may itself
+  // contain one ("SHED / CAR", "CAIRNS AIRPORT - CAR HIRE")
+  const cut=rest.lastIndexOf(' - ');
+  if(cut>0){ place=rest.slice(0,cut).trim(); time=rest.slice(cut+3).trim(); }
+  if(!place) return null;
+  return {no,ie,place,time};
+}
+function slateHTML(l){
+  const sl=slateParts(l.name);
+  const raw=`<span class="locName${sl?' raw':''}" data-edit="name" data-tapedit="1" data-for="${l.id}">${esc(l.name)}</span>`;
+  if(!sl) return raw;
+  return `<span class="slate">`
+    + (sl.ie?`<span class="slIE">${esc(sl.ie)}</span>`:'')
+    + `<span class="slMain"><span class="slPlace">${esc(sl.place)}</span>`
+    + (sl.time?`<span class="slTime">${esc(sl.time)}</span>`:'')
+    + `</span><span class="slNo">SC ${esc(sl.no)}</span></span>` + raw;
+}
 function locationSectionHTML(item,idx){
  const l=item.l, lp=countShots(l), vs=visScenes(l);
  const tone=bandTone(item.tb?item.tb.label:'');
@@ -1224,7 +1280,7 @@ function locationSectionHTML(item,idx){
    : ((l.notes||[]).length ? `<div class="empty">${l.notes.join('<br>')}</div>` : `<div class="emptyAdd"><button type="button" class="addTile addLoc" data-addloc="${l.id}" aria-label="Add shot">＋</button></div>`);
  const locNotes=(vs.length && (l.notes||[]).length)?`<div class="notes">${l.notes.join(' · ')}</div>`:'';
  return `<section class="locSection tone-${tone}" id="loc-${idx}" data-locidx="${idx}" data-locid="${l.id}">
-   <div class="locationHead"><button type="button" class="headDel" data-delloc="${l.id}" aria-label="Delete this location"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.7 4.3h10.6M6.4 4.3V3h3.2v1.3M4.2 4.3l.6 8.2a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9l.6-8.2M6.7 6.7v4.3M9.3 6.7v4.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h2><span class="locNum" data-grip="1">${String(idx+1).padStart(2,'0')}</span><span class="locName" data-edit="name" data-tapedit="1" data-for="${l.id}">${esc(l.name)}</span></h2><div class="statsWrap"><button type="button" class="bandChip" data-band="${l.id}">${esc((item.tb&&item.tb.label)||'')}</button><div class="stats">${vs.length} ${vs.length===1?'SCENE':'SCENES'}<br>${lp.done} / ${lp.total} COMPLETE</div>${locDurHTML(l)}</div></div>
+   <div class="locationHead"><button type="button" class="headDel" data-delloc="${l.id}" aria-label="Delete this location"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.7 4.3h10.6M6.4 4.3V3h3.2v1.3M4.2 4.3l.6 8.2a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9l.6-8.2M6.7 6.7v4.3M9.3 6.7v4.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h2><span class="locNum" data-grip="1">${String(idx+1).padStart(2,'0')}</span>${slateHTML(l)}</h2><div class="statsWrap"><button type="button" class="bandChip" data-band="${l.id}">${esc((item.tb&&item.tb.label)||'')}</button><div class="stats">${vs.length} ${vs.length===1?'SCENE':'SCENES'}<br>${lp.done} / ${lp.total} COMPLETE</div>${locDurHTML(l)}</div></div>
    ${scenesHTML}${locNotes}
  </section>`;
 }

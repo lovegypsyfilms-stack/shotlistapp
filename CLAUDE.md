@@ -92,6 +92,15 @@ scene; a "scene" in the code is a beat. ISLAND's shape came first and DIARY
 was fitted to it. `locBy` / `sceneBy` / `.locSection` / `.scene` all inherit
 this, so read `.locationHead` as "script scene heading".
 
+**Script-scene names are parsed for display, never rewritten.** DIARY names are
+slate lines — `SC 7 — EXT. SHED - DAY` — and `slateParts()` splits them into the
+INT/EXT, place, time and scene-number boxes the header shows, with the number
+moved after the place. It is best-effort: ISLAND and PREP names are free-form
+and a hand-renamed one may be anything, so a name that does not fit falls back
+to plain unboxed text. The raw name stays the editable element (`.locName.raw`)
+and is what EDIT mode shows — the boxes hide there, so the editor always works
+on the real string and the stored name is never reassembled from parts.
+
 **`window.APPBRIDGE` is the entire sync surface** (bottom of index.html).
 `save()` calls `APPBRIDGE.onSave()`; the sync layer calls `APPBRIDGE.refresh()`
 to pull localStorage back into the running UI. Keep it that way — the backend
