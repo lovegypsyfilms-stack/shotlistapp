@@ -16,11 +16,11 @@
    That single line is what makes the phone update.
    ============================================================ */
 
-const VERSION = '2026-09-14-B';
+const VERSION = '2026-09-14-C';
 const CACHE   = 'island-field-' + VERSION;
 
 const SHELL = ['./', './index.html', './sync-config.js', './cloud-sync.js'];
-const STATIC = ['./manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const STATIC = ['./manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 const ASSETS = SHELL.concat(STATIC);
 
 const NET_TIMEOUT = 3500; // ms before we stop waiting and use the cached copy

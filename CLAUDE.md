@@ -34,6 +34,18 @@ stamp tool is the only thing that should write them. After pushing, Pages takes
 about a minute — poll the live URL for the new `BUILD` string rather than
 assuming.
 
+## Icons
+
+`icon.svg` is the source. `icon-512.png`, `icon-192.png` and
+`apple-touch-icon.png` (180px, what iOS Add to Home Screen actually reads) are
+generated from it — there is no build step, so regenerate by rendering the SVG
+at each size and committing the PNGs. Keep them opaque RGB: iOS paints alpha
+black. The service worker precaches all three and serves icons cache-first, so
+only a `VERSION` bump clears an old one.
+
+iOS caches the home-screen icon per install. Changing the file does not update
+an icon already on a home screen — that needs remove and re-add.
+
 ## Architecture
 
 Everything is `index.html`: CSS in one `<style>`, the whole app in one

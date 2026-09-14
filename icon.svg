@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="SHOTLINE">
+  <!-- Source for icon-512/192.png and apple-touch-icon.png. The camera is the
+       app's own 'camera' glyph from svg() in index.html, scaled up, so the home
+       screen, the brand mark and the shot cards all draw the same body-and-horn
+       shape. Regenerate the PNGs after editing (see CLAUDE.md). -->
+  <rect width="512" height="512" fill="#111111"/>
+  <g fill="#ffffff" transform="translate(44 83.75) scale(13.25)">
+    <rect x="4" y="7" width="18" height="12" rx="2"/>
+    <path d="M22 11l6-3v9l-6-3z"/>
+  </g>
+</svg>
