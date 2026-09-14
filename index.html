@@ -242,6 +242,29 @@ body.selecting .shot{cursor:pointer}
 #delDayBtn svg{display:block}
 #delDayBtn:active{color:#e0685c;border-color:#e0685c;background:rgba(224,104,92,.14)}
 body.editmode #delDayBtn{display:inline-flex}
+/* ---- minimised header -------------------------------------------------
+   The black block is a third of a phone screen. Minimising drops the parts
+   you only need between setups — brand, project pills, the counter, the
+   progress bar and the day tabs — and keeps the parts you use inside a
+   setup: which day you are on, the buttons, EDIT, and the location pills. */
+#hdrToggle{border:1.5px solid #555;background:transparent;color:#cfcfc8;border-radius:50%;
+ width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;
+ padding:0;flex:0 0 auto;-webkit-tap-highlight-color:transparent}
+#hdrToggle svg{display:block;transition:transform .18s ease}
+#hdrToggle:active{background:#333}
+body.hdrmin #hdrToggle{background:#f5f5f1;border-color:#f5f5f1;color:#111}
+body.hdrmin #hdrToggle svg{transform:rotate(180deg)}
+body.hdrmin .brandRow,
+body.hdrmin .dayprogress,
+body.hdrmin .progressbar,
+body.hdrmin #dayTabs{display:none}
+/* With the counter gone the title no longer needs a line of its own, so it
+   shares one with the buttons and long names ellipsis rather than wrap. */
+body.hdrmin .dayrow>.daytitle{flex:1 1 auto;min-width:0}
+body.hdrmin .daytitle .head{overflow:hidden;text-overflow:ellipsis}
+body.hdrmin .top{padding-bottom:6px}
+body.hdrmin .loctabs{padding-top:7px}
+@media (prefers-reduced-motion:reduce){#hdrToggle svg{transition:none}}
 #dayTabs button[data-addday]{background:#e8b53a;color:#111;font-size:12px;padding:7px 12px}
 body.editmode .daytitle .head{text-decoration:underline;text-decoration-color:#55534d;text-underline-offset:4px}
 #dayTabs button.tdrag{opacity:.45}
@@ -465,7 +488,7 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
     <div class="dayrow">
       <button id="delDayBtn" type="button" aria-label="Delete this tab"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.7 4.3h10.6M6.4 4.3V3h3.2v1.3M4.2 4.3l.6 8.2a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9l.6-8.2M6.7 6.7v4.3M9.3 6.7v4.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="daytitle" id="dayTitle">ISLAND</div>
       <div class="dayprogress" id="dayProgress"></div>
-      <div style="display:flex;gap:6px;align-items:center"><button id="pickBtn" type="button" aria-label="Pickups — drag shots here">PICKUPS<i id="pickN">0</i></button><button id="filterBtn" aria-label="Isolate shots" title="Show only one camera, person or shot type across the whole shoot"><span class="fGlyph">⑂</span><span class="fLbl">SHOTS</span></button><button id="dayCheck" aria-label="Mark day complete">✓</button><button class="menuBtn" id="menuBtn" aria-label="Menu">•••</button></div>
+      <div style="display:flex;gap:6px;align-items:center"><button id="pickBtn" type="button" aria-label="Pickups — drag shots here">PICKUPS<i id="pickN">0</i></button><button id="filterBtn" aria-label="Isolate shots" title="Show only one camera, person or shot type across the whole shoot"><span class="fGlyph">⑂</span><span class="fLbl">SHOTS</span></button><button id="dayCheck" aria-label="Mark day complete">✓</button><button class="menuBtn" id="menuBtn" aria-label="Menu">•••</button><button id="hdrToggle" type="button" aria-expanded="true" aria-label="Minimise header" title="Minimise header"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path d="M3.5 10.2 8 5.7l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
     </div>
     <div class="progressbar"><i id="progressFill"></i></div>
     <nav class="daytabs" id="dayTabs" aria-label="Shoot days"></nav>
@@ -523,7 +546,7 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
   <button id="importBtn">Import shotlist (text)</button>
   <button id="backupBtn">Backup / move to another device</button>
   <button id="hapticBtn" class="secondary">Haptics: on</button>
-  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-09-14-A</button>
+  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-09-14-B</button>
   <button id="closeSheet" class="secondary">Close</button>
 </div></div>
 <div class="sheet" id="durSheet"><div class="sheetBox">
@@ -1220,7 +1243,7 @@ function renderTabs(locs){
  bindDayTabDrag();
  const pb=$('pickN'); if(pb) pb.textContent=W.holding.length;
  const pbtn=$('pickBtn'); if(pbtn) pbtn.classList.toggle('on',state.day===-1);
- const onTab=$('dayTabs').querySelector('button.on'); if(onTab) onTab.scrollIntoView({block:'nearest',inline:'nearest'});
+ const onTab=$('dayTabs').querySelector('button.on'); if(onTab&&onTab.offsetParent) onTab.scrollIntoView({block:'nearest',inline:'nearest'});
  $('locTabs').innerHTML=(locs||[]).map((x,i)=>{
    const p=countShots(x.l);
    const done=p.total>0&&p.done===p.total;
@@ -2302,6 +2325,23 @@ function openRigPick(qid){
 }
 $('rigCancel').addEventListener('click',()=>{ rigPickFor=null; $('rigSheet').classList.remove('on'); });
 $('editBtn').addEventListener('click',()=>setEditMode(!EDITMODE));
+// ---- minimise the header for more working space ----
+let HDRMIN=(function(){ try{ return localStorage.getItem('island-hdrmin')==='1'; }catch(e){ return false; } })();
+try{ document.body.classList.toggle('hdrmin',HDRMIN); }catch(e){}
+function setHdrMin(on){
+  HDRMIN=!!on;
+  document.body.classList.toggle('hdrmin',HDRMIN);
+  const b=document.getElementById('hdrToggle');
+  if(b){
+    const lbl=HDRMIN?'Expand header':'Minimise header';
+    b.setAttribute('aria-expanded',HDRMIN?'false':'true');
+    b.setAttribute('aria-label',lbl); b.title=lbl;
+  }
+  try{ localStorage.setItem('island-hdrmin',HDRMIN?'1':'0'); }catch(e){}
+  try{ alignCounter(); }catch(e){}   // the counter hangs off the filter button
+}
+setHdrMin(HDRMIN);                   // sync the button's label with the stored state
+$('hdrToggle').addEventListener('click',e=>{ e.stopPropagation(); setHdrMin(!HDRMIN); });
 $('delDayBtn').addEventListener('click',e=>{ e.stopPropagation(); if(EDITMODE) deleteDay(); });
 // tabs drag to reorder — only useful where they are not sorted by date
 function bindDayTabDrag(){
@@ -2356,7 +2396,7 @@ $('pickBtn').addEventListener('click',()=>{
   const b=document.getElementById('buildStamp');
   if(b) b.addEventListener('click',()=>{
     try{ navigator.clipboard.writeText(b.textContent.trim()); b.textContent='COPIED'; 
-         setTimeout(()=>{ b.textContent='BUILD 2026-09-14-A'; },1200); }catch(e){}
+         setTimeout(()=>{ b.textContent='BUILD 2026-09-14-B'; },1200); }catch(e){}
   });
 })();
 $('menuBtn').addEventListener('click',()=>{ syncHistoryUI(); $('sheet').classList.add('on'); });
