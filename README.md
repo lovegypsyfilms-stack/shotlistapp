@@ -1,4 +1,4 @@
-# SHOTLINE — field shot list
+# SHOOT — field shot list
 
 A single-file offline shot list for Love Gypsy Films. Built for one person on a
 phone, in the field, often with no signal and one hand free.
