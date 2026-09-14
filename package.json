@@ -1,0 +1,14 @@
+{
+  "name": "shotlistapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SHOTLINE — offline field shot list for Love Gypsy Films",
+  "type": "module",
+  "scripts": {
+    "test": "node test/run.mjs",
+    "stamp": "node tools/stamp.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.1"
+  }
+}
