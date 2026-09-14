@@ -16,7 +16,7 @@
    That single line is what makes the phone update.
    ============================================================ */
 
-const VERSION = '2026-09-14-C';
+const VERSION = '2026-09-14-D';
 const CACHE   = 'island-field-' + VERSION;
 
 const SHELL = ['./', './index.html', './sync-config.js', './cloud-sync.js'];

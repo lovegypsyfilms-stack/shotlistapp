@@ -36,12 +36,18 @@ assuming.
 
 ## Icons
 
-`icon.svg` is the source. `icon-512.png`, `icon-192.png` and
-`apple-touch-icon.png` (180px, what iOS Add to Home Screen actually reads) are
-generated from it — there is no build step, so regenerate by rendering the SVG
-at each size and committing the PNGs. Keep them opaque RGB: iOS paints alpha
-black. The service worker precaches all three and serves icons cache-first, so
-only a `VERSION` bump clears an old one.
+`icon-512.png` is the master; `icon-192.png` and `apple-touch-icon.png` (180px,
+what iOS Add to Home Screen actually reads) are the same artwork at smaller
+sizes. There is no build step — render each size and commit the PNGs.
+
+Two things the artwork has to satisfy, and the current one was chosen against
+both: **it must be flat-backed**, because iOS composites any transparency onto
+black, and **it must survive 60pt**. A line drawing whose detail lives in thin
+dark strokes disappears on a light ground at that size; white-on-`#111` holds.
+Check a 60px render before committing, not just the 512.
+
+The service worker precaches all three and serves icons cache-first, so only a
+`VERSION` bump clears an old one.
 
 iOS caches the home-screen icon per install. Changing the file does not update
 an icon already on a home screen — that needs remove and re-add.

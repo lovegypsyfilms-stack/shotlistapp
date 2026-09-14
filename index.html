@@ -547,7 +547,7 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
   <button id="importBtn">Import shotlist (text)</button>
   <button id="backupBtn">Backup / move to another device</button>
   <button id="hapticBtn" class="secondary">Haptics: on</button>
-  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-09-14-C</button>
+  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-09-14-D</button>
   <button id="closeSheet" class="secondary">Close</button>
 </div></div>
 <div class="sheet" id="durSheet"><div class="sheetBox">
@@ -2397,7 +2397,7 @@ $('pickBtn').addEventListener('click',()=>{
   const b=document.getElementById('buildStamp');
   if(b) b.addEventListener('click',()=>{
     try{ navigator.clipboard.writeText(b.textContent.trim()); b.textContent='COPIED'; 
-         setTimeout(()=>{ b.textContent='BUILD 2026-09-14-C'; },1200); }catch(e){}
+         setTimeout(()=>{ b.textContent='BUILD 2026-09-14-D'; },1200); }catch(e){}
   });
 })();
 $('menuBtn').addEventListener('click',()=>{ syncHistoryUI(); $('sheet').classList.add('on'); });
