@@ -589,16 +589,17 @@ html,body{background:#000;color:var(--ink)}
 .top .daytabs,.daytabs{background:transparent;padding:9px 0 13px;margin:0;gap:13px;scroll-snap-type:x proximity}
 .daytabs button,.top .daytabs button{position:relative;background:transparent;color:var(--muted);
  border:0;border-radius:0;padding:0;font-size:9px;letter-spacing:.11em;scroll-snap-align:center;
- display:flex;flex-direction:column;align-items:center;gap:5px;min-width:58px;max-width:88px}
+ display:flex;flex-direction:column;align-items:center;gap:4px;min-width:58px;max-width:88px}
 .daytabs button .tabTxt{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
  max-width:88px;font-size:8.5px;font-weight:900;letter-spacing:.11em;color:var(--muted)}
-/* what is left to shoot here, read at a glance from inside the ring */
-.daytabs button .nodeN{position:absolute;top:0;left:50%;transform:translateX(-50%);
- width:38px;height:38px;display:flex;align-items:center;justify-content:center;
- font-size:12px;font-weight:950;letter-spacing:.01em;color:var(--muted);pointer-events:none}
-.daytabs button.on .nodeN{color:var(--goldHi)}
-.daytabs button .nodeN.done{color:var(--gold);font-size:14px}
-.daytabs button .nodeN.empty{color:var(--faint);opacity:.5}
+/* The ring is left alone to be a ring. What is still to shoot here goes under
+   the name instead, small enough to read as a footnote and not as the label. */
+.daytabs button .nodeN{order:1;display:block;margin-top:-1px;font-size:8.5px;font-weight:900;
+ letter-spacing:.09em;color:var(--faint);line-height:1;pointer-events:none}
+.daytabs button.on .nodeN{color:var(--gold)}
+.daytabs button .nodeN.done{color:var(--gold);font-size:9.5px}
+.daytabs button .nodeN.nil{opacity:.45}
+.daytabs button{--nodeR:19px}
 .daytabs button::before{content:'';order:-1;width:38px;height:38px;border-radius:50%;
  border:1px solid var(--goldLine);background:rgba(10,14,12,.55);
  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
@@ -624,6 +625,7 @@ html,body{background:#000;color:var(--ink)}
 .loctabs button{position:relative;background:transparent;color:var(--muted);border:0;border-radius:0;
  padding:0;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:40px;
  scroll-snap-align:center;transition:color .16s ease}
+.loctabs button{--nodeR:15px}
 .loctabs button::before{content:'';order:-1;width:30px;height:30px;border-radius:50%;
  border:1px solid var(--goldLine);background:rgba(10,14,12,.55);
  transition:box-shadow .2s ease,border-color .2s ease,background .2s ease}
@@ -1042,7 +1044,7 @@ button:focus-visible{outline:2px solid var(--goldHi);outline-offset:2px}
   <button id="backupBtn">Backup / move to another device</button>
   <button id="hapticBtn" class="secondary">Haptics: on</button>
   <button id="updateBtn">Check for update</button>
-  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-10-08-B</button>
+  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-10-08-C</button>
   <button id="closeSheet" class="secondary">Close</button>
 </div></div>
 <div class="sheet" id="durSheet"><div class="sheetBox">
@@ -1782,7 +1784,7 @@ function dayTabTip(day){
    how much of it is still to shoot. */
 function nodeCountHTML(x){
  const p=countShots(x);
- if(!p.total) return `<span class="nodeN empty">·</span>`;
+ if(!p.total) return `<span class="nodeN nil">·</span>`;
  if(p.done>=p.total) return `<span class="nodeN done">✓</span>`;
  return `<span class="nodeN">${p.total-p.done}</span>`;
 }
@@ -4028,8 +4030,10 @@ window.APPBRIDGE={
   const onLoc=locs.filter(b=>b.classList.contains('on'))[0]||null;
   const d=[];
 
-  // node radius is whatever the CSS circle actually is
-  const rad=el=>Math.min(el.getBoundingClientRect().width,46)/2;
+  // the circle's radius, taken from the stylesheet rather than from the button
+  // box — the button is as wide as its label and as tall as its caption
+  const rad=el=>{ const v=parseFloat(getComputedStyle(el).getPropertyValue('--nodeR'));
+    return v>0?v:Math.min(el.getBoundingClientRect().width,46)/2; };
 
   /* Branches, not plumbing. Every run is a cubic: the location row is one
      continuous limb that sags between nodes the way a branch does, and the
@@ -4052,7 +4056,9 @@ window.APPBRIDGE={
     dots.push({x:mx,y:(a.y+z.y)/2+sag*.75,r:1.9,live:a.b===onDay||z.b===onDay});
    }
    if(locs.length){
-    const from={x:c.x,y:c.y+n*2};
+    // the fan leaves from under the whole node — ring, name and count — so no
+    // branch is ever drawn through the label it belongs to
+    const from={x:c.x,y:Math.max(c.y+n*2,pt(onDay,.5,1).y+2)};
     dots.push({x:from.x,y:from.y,r:2.6,live:true});
     const ai=locs.indexOf(onLoc);
     locs.forEach((b,bi)=>{ if(!vis(b)) return;
