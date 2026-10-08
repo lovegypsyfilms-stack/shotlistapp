@@ -490,12 +490,447 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
  .sceneName:hover,.locName:hover{background:rgba(0,0,0,.045);border-radius:4px}
  .headMoveBtn:hover{background:#111;color:#fff;border-color:#111}
 }
+
+/* ============================================================================
+   RADIANT TREE — the dark cinematic skin
+   ----------------------------------------------------------------------------
+   One rule runs through all of it: GOLD IS NAVIGATION, BLUE IS CONTENT.
+   Gold draws the branches, the selected node and every panel edge; it never
+   appears inside a shot card. The rig colours stay exactly what they were —
+   they carry meaning on a shoot — but they are lifted for a dark ground, and
+   the default camera lands on electric blue, which is what the mockup shows.
+
+   This block is additive and last, so removing it restores the paper skin.
+   ========================================================================== */
+:root{
+ --bg:#070809; --surface:#0b0d0e; --panel:#101314; --panel2:#0d1011;
+ --ink:#f2f0ea; --muted:#8e8f89; --faint:#63645f;
+ --gold:#d9a441; --goldHi:#f0c268; --goldLine:rgba(217,164,65,.34); --goldFaint:rgba(217,164,65,.14);
+ --blue:#2f9bff; --blueDim:#1d6fbd;
+ --rule:rgba(217,164,65,.20); --ruleHard:rgba(217,164,65,.30);
+ --glow:0 0 14px rgba(240,194,104,.28);
+}
+html,body{background:#000;color:var(--ink)}
+#app{background:var(--bg);max-width:460px}
+.top{background:transparent;color:var(--ink);padding-top:calc(8px + env(safe-area-inset-top));padding-bottom:0;overflow:hidden}
+.top::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#000 0%,#05070a 46%,var(--bg) 100%);z-index:-1}
+
+/* ---- brand ---- */
+.brandRow{margin-bottom:9px}
+.brandName{color:var(--gold);letter-spacing:.22em;font-size:16px}
+.brandSub{color:var(--faint);letter-spacing:.2em}
+.brandMark path[fill="none"],.brandMark path[stroke="#fff"]{stroke:var(--gold)}
+.brandMark path[fill="#fff"]{fill:var(--gold)}
+.brand>div>.brandName{position:relative;padding-right:11px}
+.brand>div>.brandName::after{content:'';position:absolute;right:0;top:1px;bottom:1px;width:1px;background:var(--goldLine)}
+
+/* ---- rails: project carousel + location tree row ---- */
+.projWrap,.rail{position:relative;display:flex;align-items:center;gap:2px;min-width:0;flex:1 1 auto}
+.rail{flex:1 1 auto;width:100%}
+/* the row must be the thing that scrolls, not the thing that overflows its rail */
+.rail #dayTabs{flex:1 1 auto;min-width:0}
+.railArr{flex:0 0 auto;width:22px;height:26px;padding:0;border:0;background:transparent;
+ color:var(--gold);font-size:17px;line-height:1;font-weight:700;opacity:0;pointer-events:none;
+ transition:opacity .18s ease;-webkit-tap-highlight-color:transparent}
+.railArr.live{opacity:.85;pointer-events:auto}
+.railArr:active{opacity:1;text-shadow:var(--glow)}
+.projRow{gap:5px;scroll-snap-type:x mandatory;justify-content:flex-start;
+ border:1px solid var(--goldLine);border-radius:16px;padding:3px}
+.projRow button{min-width:0;border:0;background:transparent;color:var(--muted);
+ border-radius:13px;padding:6px 14px;font-size:9.5px;letter-spacing:.14em;scroll-snap-align:center;
+ min-height:26px;transition:color .16s ease,background .16s ease}
+.projRow button.on{background:rgba(217,164,65,.12);color:var(--goldHi);
+ box-shadow:inset 0 0 0 1px rgba(217,164,65,.55),0 0 10px rgba(217,164,65,.16)}
+
+/* ---- the tree region: the only place the forest shows ---- */
+.treeWrap{position:relative;margin:0 -14px;padding:4px 14px 10px;isolation:isolate}
+.treeArt{position:absolute;inset:0;z-index:-2;overflow:hidden;
+ background:
+  radial-gradient(1.6px 1.6px at 12% 22%,rgba(255,206,120,.55),transparent 60%),
+  radial-gradient(2.2px 2.2px at 78% 16%,rgba(255,206,120,.42),transparent 60%),
+  radial-gradient(1.4px 1.4px at 34% 70%,rgba(255,206,120,.40),transparent 60%),
+  radial-gradient(2.6px 2.6px at 88% 62%,rgba(255,206,120,.30),transparent 60%),
+  radial-gradient(1.8px 1.8px at 57% 40%,rgba(255,206,120,.34),transparent 60%),
+  radial-gradient(1.5px 1.5px at 22% 88%,rgba(255,206,120,.26),transparent 60%),
+  radial-gradient(2px 2px at 66% 84%,rgba(255,206,120,.22),transparent 60%),
+  radial-gradient(120% 80% at 50% 8%,rgba(28,42,30,.85),transparent 72%),
+  radial-gradient(90% 70% at 18% 52%,rgba(20,34,24,.70),transparent 70%),
+  radial-gradient(90% 70% at 84% 46%,rgba(18,30,22,.66),transparent 70%),
+  linear-gradient(180deg,#0a1210 0%,#080d0c 55%,var(--bg) 100%);
+}
+/* a suggestion of canopy, not a photograph — it must never sit behind body text */
+.treeArt::after{content:'';position:absolute;inset:0;opacity:.5;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='120' viewBox='0 0 160 120'><g fill='none' stroke='%231d3326' stroke-width='3' stroke-linecap='round'><path d='M80 120 L80 66 M80 78 L54 48 M80 74 L108 44 M54 48 L38 26 M54 48 L60 20 M108 44 L128 22 M108 44 L100 16 M38 26 L26 10 M128 22 L142 8'/></g><g fill='none' stroke='%23162a1e' stroke-width='2'><path d='M12 120 L12 72 M12 84 L0 60 M12 80 L30 58 M148 120 L148 78 M148 88 L160 66 M148 86 L132 62'/></g></svg>");
+ background-size:160px 120px;mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 62%,transparent 100%);
+ -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 62%,transparent 100%)}
+.treeWrap::after{content:'';position:absolute;left:0;right:0;bottom:0;height:34px;z-index:-1;
+ background:linear-gradient(180deg,transparent,var(--bg))}
+.treeLines{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:visible}
+.treeLines path{fill:none;stroke:var(--goldLine);stroke-width:1.1}
+.treeLines path.live{stroke:rgba(240,194,104,.85);stroke-width:1.4;filter:drop-shadow(0 0 3px rgba(240,194,104,.5))}
+.treeLines circle{fill:var(--gold);opacity:.55}
+.treeLines circle.live{opacity:1;filter:drop-shadow(0 0 4px rgba(240,194,104,.8))}
+
+/* ---- location nodes (the top branch) ---- */
+.top .daytabs,.daytabs{background:transparent;padding:14px 0 20px;margin:0;gap:14px;scroll-snap-type:x proximity}
+.daytabs button,.top .daytabs button{position:relative;background:transparent;color:var(--muted);
+ border:0;border-radius:0;padding:0;font-size:9px;letter-spacing:.11em;scroll-snap-align:center;
+ display:flex;flex-direction:column;align-items:center;gap:7px;min-width:62px;max-width:92px}
+.daytabs button .tabTxt{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+ max-width:88px;font-size:8.5px;font-weight:900;letter-spacing:.11em;color:var(--muted)}
+/* what is left to shoot here, read at a glance from inside the ring */
+.daytabs button .nodeN{position:absolute;top:0;left:50%;transform:translateX(-50%);
+ width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+ font-size:12px;font-weight:950;letter-spacing:.01em;color:var(--muted);pointer-events:none}
+.daytabs button.on .nodeN{color:var(--goldHi)}
+.daytabs button .nodeN.done{color:var(--gold);font-size:14px}
+.daytabs button .nodeN.empty{color:var(--faint);opacity:.5}
+.daytabs button::before{content:'';order:-1;width:44px;height:44px;border-radius:50%;
+ border:1px solid var(--goldLine);background:rgba(10,14,12,.55);
+ -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+ transition:box-shadow .2s ease,border-color .2s ease,background .2s ease}
+.daytabs button.on::before,.top .daytabs button.on::before{border-color:var(--goldHi);
+ background:rgba(217,164,65,.10);box-shadow:0 0 0 1px rgba(217,164,65,.30),0 0 18px rgba(240,194,104,.38)}
+.daytabs button.on,.top .daytabs button.on{background:transparent;color:var(--goldHi)}
+.daytabs button.on .tabTxt{color:var(--ink);font-weight:950}
+.daytabs button.daydone{opacity:.45}
+/* the scheduling marks ride under the node, not inside it */
+.daytabs button.hasFill{padding-bottom:0}
+.daytabs button.hasFill .dayFill{width:34px;height:3px}
+.top .daytabs .dayFill b,.daytabs button.on .dayFill b{background:rgba(217,164,65,.18)}
+.daytabs button[data-addday],#dayTabs button[data-addday]{background:transparent;color:var(--gold);font-size:9px;padding:0}
+.daytabs button[data-addday]::before{border-style:dashed}
+.daytabs button[data-holding]{color:var(--gold)}
+.daytabs button.dropTarget{background:transparent;color:var(--ink);outline:0}
+.daytabs button.dropTarget::before{border-color:var(--blue);box-shadow:0 0 0 2px rgba(47,155,255,.45),0 0 16px rgba(47,155,255,.4)}
+
+/* ---- scene nodes (the lower branch) — numbers stay the rhythm ---- */
+.stripRow{gap:7px;padding-top:2px}
+.loctabs{gap:14px;padding:16px 0 0;overflow-x:auto;scroll-snap-type:x proximity}
+.loctabs button{position:relative;background:transparent;color:var(--muted);border:0;border-radius:0;
+ padding:0;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:40px;
+ scroll-snap-align:center;transition:color .16s ease}
+.loctabs button::before{content:'';order:-1;width:34px;height:34px;border-radius:50%;
+ border:1px solid var(--goldLine);background:rgba(10,14,12,.55);
+ transition:box-shadow .2s ease,border-color .2s ease,background .2s ease}
+.loctabs button .pillNum{position:absolute;top:0;left:0;right:0;height:34px;margin:0;
+ display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;
+ color:var(--muted);letter-spacing:.04em}
+.loctabs button.on::before{border-color:var(--goldHi);background:rgba(217,164,65,.10);
+ box-shadow:0 0 0 1px rgba(217,164,65,.30),0 0 16px rgba(240,194,104,.40)}
+.loctabs button.on{background:transparent;color:var(--goldHi)}
+.loctabs button.on .pillNum{color:var(--goldHi)}
+.loctabs button.locdone{opacity:.45}
+.loctabs button .locTick{margin:0;font-size:8px;color:var(--gold);line-height:1}
+#editBtn{background:rgba(217,164,65,.10);color:var(--gold);border:1px solid var(--goldLine);
+ border-radius:13px;margin:16px 0 0;align-self:flex-start;min-height:32px;padding:6px 13px}
+#editBtn.on{background:var(--gold);color:#140f04;border-color:var(--gold);box-shadow:0 0 14px rgba(217,164,65,.35)}
+
+/* ---- the one heading strip, and the position / all-locations control ---- */
+.headStrip{display:flex;justify-content:center;margin:12px 0 0;min-height:0}
+.headStrip[hidden]{display:none}
+.headStrip button{display:inline-flex;align-items:center;gap:9px;max-width:100%;min-height:36px;
+ border:1px solid var(--goldLine);border-radius:9px;background:rgba(10,14,12,.62);
+ -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+ color:var(--goldHi);padding:8px 16px;font-size:10.5px;font-weight:900;letter-spacing:.13em;
+ text-transform:uppercase;line-height:1.2}
+.headStrip button svg{flex:0 0 auto;opacity:.75}
+.headStrip button span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.headStrip button:active{background:rgba(217,164,65,.14)}
+.allLocBtn{display:none;margin:10px auto 0;border:1px solid var(--goldFaint);border-radius:8px;
+ background:transparent;color:var(--muted);padding:6px 12px;min-height:28px;
+ font-size:8.5px;font-weight:900;letter-spacing:.15em;white-space:nowrap}
+.allLocBtn.live{display:block}
+.allLocBtn b{color:var(--goldHi);font-weight:900}
+.allLocBtn:active{border-color:var(--goldLine);color:var(--ink)}
+
+/* ---- collapsed breadcrumb ---- */
+.crumb{display:none;width:100%;align-items:center;gap:8px;margin:0 0 6px;
+ border:1px solid var(--goldLine);border-radius:9px;background:rgba(10,14,12,.72);
+ -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+ color:var(--ink);padding:8px 12px;min-height:38px;font-size:10px;font-weight:900;
+ letter-spacing:.12em;text-align:left}
+body.navmin .crumb,body.hdrmin .crumb{display:flex}
+.crumb #crumbTxt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crumb i{font-style:normal;color:var(--gold);opacity:.6;margin:0 6px;font-weight:700}
+.crumb b{color:var(--goldHi);font-weight:950}
+.crumbChev{flex:0 0 auto;color:var(--gold);font-size:14px;line-height:1}
+/* Collapsed drops the forest, the branches and the location row, and the
+   breadcrumb takes over naming where you are. Every control on the summary
+   row — PICKUPS, SHOTS, the menu, EDIT and the scene numbers — stays, because
+   collapsing is for working space, not for taking tools away. */
+body.navmin .treeArt,body.hdrmin .treeArt,
+body.navmin .treeLines,body.hdrmin .treeLines,
+body.navmin .treeWrap::after,body.hdrmin .treeWrap::after,
+body.navmin .brandRow,body.navmin .dayprogress,body.navmin .progressbar,
+body.navmin #dayTabs,body.navmin .headStrip,body.navmin .allLocBtn,
+body.hdrmin .headStrip,body.hdrmin .allLocBtn,
+body.navmin .daytitle,body.hdrmin .daytitle,
+body.navmin #dayRail .railArr,body.hdrmin #dayRail .railArr{display:none}
+body.navmin .dayrow,body.hdrmin .dayrow{margin-top:0;padding:7px 9px;justify-content:flex-end}
+body.navmin .treeWrap,body.hdrmin .treeWrap{padding-top:0;padding-bottom:0}
+body.navmin .stripRow,body.hdrmin .stripRow{padding-top:0}
+body.navmin .loctabs,body.hdrmin .loctabs{padding-top:7px;gap:10px}
+body.navmin .loctabs button::before,body.hdrmin .loctabs button::before{width:28px;height:28px}
+body.navmin .loctabs button .pillNum,body.hdrmin .loctabs button .pillNum{height:28px;font-size:10px}
+body.navmin #editBtn,body.hdrmin #editBtn{margin-top:7px}
+body.navmin .top,body.hdrmin .top{padding-bottom:4px}
+
+/* ---- location summary ---- */
+.dayrow{margin-top:10px;padding:11px 12px;border:1px solid var(--goldLine);border-radius:11px;
+ background:rgba(13,16,17,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+ align-items:center;row-gap:6px}
+.dayrow>.daytitle{flex:1 1 auto;min-width:0}
+.daytitle{font-size:20px;letter-spacing:.03em;color:var(--ink)}
+.daytitle .astro{color:var(--faint)}
+.dayprogress{flex:1 1 100%;color:var(--muted);padding-left:0!important}
+.dayprogress b,.dayprogress strong{color:var(--goldHi)}
+.progressbar{background:rgba(217,164,65,.14);margin-top:9px}
+.progressbar>i{background:linear-gradient(90deg,var(--gold),var(--goldHi))}
+#pickBtn,#filterBtn{border-color:var(--goldLine);color:var(--muted);background:transparent}
+#pickBtn.on,#filterBtn.on{background:rgba(217,164,65,.14);border-color:var(--goldHi);color:var(--goldHi)}
+#pickBtn.dropTarget{background:rgba(47,155,255,.18);border-color:var(--blue);color:var(--ink)}
+#dayCheck{border-color:var(--goldLine)}
+#dayCheck.on{background:var(--gold);border-color:var(--gold);color:#140f04}
+.menuBtn{border-color:var(--goldLine);background:transparent;color:var(--muted)}
+#hdrToggle{border-color:var(--goldLine);background:transparent;color:var(--gold)}
+body.navmin #hdrToggle,body.hdrmin #hdrToggle{background:var(--gold);border-color:var(--gold);color:#140f04}
+#delDayBtn{border-color:var(--goldFaint);color:var(--faint)}
+
+/* ---- time-of-day band ----
+   The tones were mixed for a paper ground; on near-black the pale ones read as
+   white bars, so each is restated at a weight that still names the hour. */
+.tone-morning  {--tone:#c79a1f;--toneSoft:rgba(199,154,31,.26)}
+.tone-afternoon{--tone:#2f8a49;--toneSoft:rgba(47,138,73,.26)}
+.tone-sunset   {--tone:#c2621f;--toneSoft:rgba(194,98,31,.26)}
+.tone-night    {--tone:#3d4a6b;--toneSoft:rgba(61,74,107,.30)}
+.tone-tbc      {--tone:#40423c;--toneSoft:rgba(64,66,60,.40)}
+.timelabel{color:var(--faint);letter-spacing:.2em;margin-left:10px}
+.timelabel.freeSlot{border-color:rgba(217,164,65,.22);color:var(--faint);background:transparent}
+.timelabel.freeSlot em{color:rgba(143,224,164,.75)}
+
+/* ---- the scene card: one joined grid, not a row of pills ----------------
+   display:contents flattens the h2 / slate / stats wrappers so every field
+   becomes a cell of the same flex row, sharing one border run. The wrappers
+   stay in the DOM, so the drag grips, the editors and EDIT mode are untouched. */
+.locSection{background:var(--panel);margin:0 9px 16px;border:1px solid var(--goldLine);
+ border-radius:11px;box-shadow:0 1px 0 rgba(217,164,65,.06),0 6px 22px rgba(0,0,0,.5)}
+.locSection.live{border-color:rgba(217,164,65,.55);box-shadow:0 0 0 1px rgba(217,164,65,.18),0 6px 26px rgba(0,0,0,.6)}
+.locationHead{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:flex-start;gap:0;padding:0;margin:0;
+ border-bottom:1px solid var(--rule);border-radius:10px 10px 0 0;overflow:hidden;background:rgba(255,255,255,.012)}
+.locationHead h2{display:contents}
+.locationHead .slate{display:contents}
+.locationHead .slMain{display:contents}
+/* The counts and the timer stay one wrapper, so they share the second line of
+   the grid instead of each claiming one. */
+.locationHead .statsWrap{display:flex;flex:1 1 100%;flex-direction:row;align-items:stretch;
+ gap:0;padding:0;border-top:1px solid var(--rule)}
+.locationHead .headDel{display:none}
+body.editmode .locationHead .headDel{display:inline-flex}
+.locationHead>*,.locationHead .slIE,.locationHead .slPlace,.locationHead .slTime,
+.locationHead .slNo,.locationHead .locNum,.locationHead .stats{
+ display:flex;align-items:center;min-height:46px;padding:9px 11px;border:0;border-radius:0;
+ border-right:1px solid var(--rule);background:transparent;line-height:1.15}
+.locationHead .locNum{flex:0 0 auto;justify-content:center;min-width:48px;font-size:15px;font-weight:950;
+ color:var(--gold);letter-spacing:.03em;background:rgba(217,164,65,.07)}
+.locationHead .slIE{flex:0 0 auto;font-size:9px;letter-spacing:.14em;color:var(--muted);font-weight:900}
+.locationHead .slPlace{flex:1 1 90px;min-width:0;font-size:16px;font-weight:950;color:var(--ink);
+ letter-spacing:.02em;overflow-wrap:anywhere}
+.locationHead .slTime{flex:0 0 auto;font-size:9px;letter-spacing:.14em;color:var(--muted);font-weight:900}
+.locationHead .slNo{flex:0 0 auto;font-size:10px;letter-spacing:.08em;color:var(--ink);font-weight:900;
+ background:transparent}
+.locationHead .slNo b{color:var(--gold)}
+/* The counts and the timer always take the line below the slate, at every
+   width, so one card's geometry is the next card's geometry. */
+.locationHead .stats{flex:1 1 auto;min-width:0;min-height:34px;justify-content:flex-start;
+ font-size:9.5px;font-weight:900;color:var(--muted);text-align:left;white-space:nowrap;
+ letter-spacing:.07em;line-height:1.35;border-top:0;border-right:0;overflow:hidden}
+.locationHead .stats span+span{margin-left:11px;padding-left:11px;border-left:1px solid var(--rule)}
+.locationHead .stats span+span{color:var(--ink)}
+.locationHead .durBtn{flex:0 0 auto;min-height:34px;margin:0;padding:0 14px;border:0;
+ border-left:1px solid var(--rule);border-radius:0;
+ background:transparent;color:var(--muted);font-size:11px}
+.locationHead .durBtn.setv{background:transparent;color:var(--goldHi)}
+.locationHead .slNo{border-right:0}
+body.editmode .locationHead .headDel{width:24px;height:24px;min-height:0;padding:0;margin:0 0 0 10px;
+ align-self:center;align-items:center;justify-content:center;border:1px solid var(--goldFaint);
+ border-right:1px solid var(--goldFaint);color:var(--faint);background:transparent;flex:0 0 auto}
+.locationHead .bandChip{align-self:center;margin:0 9px 0 0;border-right:0;min-height:0;
+ background:rgba(217,164,65,.16);color:var(--goldHi)}
+/* ISLAND and PREP names are free-form, so there is no slate to box — the name
+   itself becomes the strong cell and the row is simply shorter. */
+.locationHead .locName{flex:1 1 120px;min-width:0;display:flex;align-items:center;min-height:46px;
+ padding:9px 11px;font-size:16px;font-weight:950;color:var(--ink);letter-spacing:.02em;
+ text-decoration-color:var(--goldLine);overflow-wrap:anywhere}
+.locationHead .locName.raw{display:none;font-size:13px}
+body.editmode .locationHead .locName.raw{display:flex}
+body.editmode .locationHead .slate{display:none}
+/* the coloured time-of-day rule survives, as a hairline under the header */
+.locationHead{box-shadow:inset 0 -3px 0 0 var(--tone,transparent)}
+.locSection .notes{color:var(--faint);margin:4px 13px 9px}
+.empty{background:transparent;border-color:rgba(217,164,65,.22);color:var(--faint)}
+
+/* ---- shot-group row ---- */
+.scene{margin:10px 9px 12px;padding-top:0;border-top:0}
+.sceneHead{display:flex;align-items:stretch;gap:0;margin:0 0 9px;padding:0;
+ border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.015)}
+.sceneHead>*{display:flex;align-items:center;min-height:40px;padding:8px 11px}
+.sceneHead .sceneName{flex:1 1 auto;min-width:0;font-size:11.5px;font-weight:950;letter-spacing:.07em;
+ color:var(--ink);text-transform:uppercase;text-decoration:none;border-right:1px solid var(--rule)}
+.sceneHead .sceneRight{flex:0 0 auto;gap:0;padding:0}
+.sceneHead .sceneRight>*{min-height:40px;display:inline-flex;align-items:center;padding:0 11px;
+ border-right:1px solid var(--rule);margin:0}
+.sceneHead .sceneRight>*:last-child{border-right:0}
+.sceneHead .durBtn{border:0;border-right:1px solid var(--rule);border-radius:0;background:transparent;
+ color:var(--muted);font-size:11px}
+.sceneHead .durBtn.setv{background:transparent;color:var(--goldHi)}
+.sceneHead .sceneCount{font-size:9.5px;font-weight:900;color:var(--muted);letter-spacing:.07em}
+.sceneHead .headMoveBtn{border:0;border-radius:0;background:transparent;color:var(--gold);
+ font-size:13px;font-weight:700}
+.sceneHead .headDel,.sceneHead .grip{display:none}
+body.editmode .sceneHead .headDel{display:inline-flex}
+body.editmode .sceneHead .grip{display:inline-flex}
+.sceneHead .headDel,.sceneHead .grip{align-self:center;min-height:0;padding:0;margin:0 0 0 9px;
+ border-color:var(--goldFaint);color:var(--faint)}
+body.editmode .sceneHead .headDel{width:24px;height:24px;border:1px solid var(--goldFaint);
+ align-items:center;justify-content:center}
+.sceneMoved{background:rgba(217,164,65,.14);color:var(--goldHi)}
+
+/* ---- shot cards ---- */
+.shots{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:339px){.shots{grid-template-columns:minmax(0,1fr)}}
+@media (min-width:620px){.shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.shot{background:var(--panel2);border:1px solid rgba(255,255,255,.07);border-radius:9px;
+ padding:13px 10px 40px;min-height:112px;color:var(--ink);overflow:hidden}
+.shot.fx30,.shot.camera{--strip:#2f9bff}
+.shot.mavic{--strip:#52c48d} .shot.fpv{--strip:#f0954a}
+.shot.gopro{--strip:#e8c63a} .shot.mission{--strip:#a98ad6}
+.shot.probe{--strip:#4fbd73} .shot.slider{--strip:#e08484}
+.shot.call{--strip:#e8bc46} .shot.buy{--strip:#eda75a}
+.shot.gear{--strip:#6cc189} .shot.book{--strip:#71a7e4} .shot.admin{--strip:#9b968a}
+.shot:not(.addTile)::before{height:3px;background:var(--strip,#4a4a44);
+ box-shadow:0 0 10px -1px var(--strip,transparent)}
+.shot:not(.addTile){box-shadow:inset 0 0 0 1px rgba(255,255,255,.015)}
+.shot.sel{outline-color:var(--goldHi)}
+.shot.sel::after{background:var(--goldHi);color:#140f04}
+/* One blue for every shot title. The rig still has its colour — it owns the bar
+   along the top and the camera icon in the foot — but twelve title colours in a
+   grid was the thing that made the old pastel cards read as mush. */
+.shotLabel{font-size:11px;line-height:1.2;color:var(--blue);letter-spacing:.05em;
+ padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.08)}
+.shotFoot .cam{color:var(--strip,var(--muted))}
+.shotDetail{font-size:10.5px;line-height:1.32;color:#c9c7c0;font-weight:500;margin-top:9px;
+ text-transform:none}
+.shotDetail.empty2{margin-top:0;border:0}
+.meta{color:var(--faint);font-size:8px;letter-spacing:.1em;margin-top:9px;
+ padding-top:8px;border-top:1px solid rgba(255,255,255,.07)}
+.shot.done{opacity:.4;filter:grayscale(.6)}
+.shot.done:after{color:var(--goldHi)}
+.shotFoot{left:10px;right:8px;bottom:0;height:38px;display:flex;align-items:center;gap:0;
+ border-top:1px solid rgba(255,255,255,.08)}
+/* Four 44px squares will not fit across a 172px shot card. The drawn control
+   stays small and the finger target is grown under it — vertically, where
+   there is room, and never sideways into the neighbouring control. */
+.shotFoot .cam,.shotFoot .previsBtn,.shotFoot .moveBtn{position:relative}
+.shotFoot .cam::after,.shotFoot .previsBtn::after,.shotFoot .moveBtn::after{
+ content:'';position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
+.shotFoot .moveBtn::after{left:-7px;right:-7px}
+.shotFoot .num{font-size:10px;font-weight:950;color:var(--ink);padding-right:11px;
+ border-right:1px solid rgba(255,255,255,.08)}
+.shotFoot .cam,.shotFoot .previsBtn{display:inline-flex;align-items:center;justify-content:center;
+ width:32px;height:32px;color:var(--muted);border-right:1px solid rgba(255,255,255,.08);
+ border-top:0;border-left:0;border-bottom:0;background:transparent;border-radius:0;padding:0}
+.shotFoot .cam svg{fill:currentColor;stroke:currentColor;width:16px;height:12px}
+.shotFoot .previsBtn svg{display:block}
+.shotFoot .moveBtn{position:static;margin-left:auto;background:transparent;color:var(--muted);
+ border:1px solid rgba(255,255,255,.14);border-radius:50%;width:24px;height:24px;
+ display:inline-flex;align-items:center;justify-content:center;font-size:11px;padding:0}
+.shotFoot .moveBtn:active{color:var(--ink);border-color:var(--goldLine)}
+.previsWrap{margin:9px 0 0;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.previsWrap img{display:block;width:100%;height:auto}
+.shot .rescheduledTag{color:var(--faint);margin-top:7px}
+.addedTag{background:rgba(217,164,65,.16);color:var(--goldHi)}
+.addTile{color:var(--gold);min-height:112px}
+.addTile:active,.addTile:focus-visible{opacity:.5}
+.addTile.addLoc{min-height:44px}
+body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(217,164,65,.45)}
+body.editmode .shotLabel,body.editmode .shotDetail{background:rgba(255,255,255,.05);
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+body.editmode .locName,body.editmode .sceneName{background:rgba(255,255,255,.05);
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+body.editmode .locNum{background:rgba(217,164,65,.14)}
+[data-edit].editing{outline-color:var(--goldHi);background:#17191a;color:var(--ink)}
+.dragGhost{padding:13px 10px 40px}
+#dropCaret{background:var(--goldHi);box-shadow:0 0 10px rgba(240,194,104,.9)}
+#headDropLine{background:var(--goldHi)}
+.hdrop{outline-color:var(--goldHi)}
+
+/* ---- filter bar, sheets, menus: same dark glass ---- */
+.filterBar{background:rgba(10,13,14,.92);border-bottom:1px solid var(--rule)}
+.fChip{border-color:var(--goldFaint);color:var(--muted)}
+.fChip.on{background:rgba(217,164,65,.16);color:var(--goldHi);border-color:var(--goldLine)}
+.fLocHead{color:var(--muted)}
+.sheetBox{background:#0e1112;border:1px solid var(--goldLine);border-bottom:0;color:var(--ink)}
+.sheetBox h2{color:var(--ink);letter-spacing:.06em}
+.sheetBox button{background:rgba(217,164,65,.16);color:var(--goldHi);border:1px solid var(--goldLine)}
+.sheetBox button.secondary{background:transparent;color:var(--muted);border-color:rgba(255,255,255,.12)}
+.sheetBox select,.sheetBox textarea,.sheetBox input,#renameInput,#customDur,#locSearch{
+ background:#15181a;border-color:rgba(255,255,255,.14);color:var(--ink)}
+.sheetBox label{color:var(--muted)}
+.moveSummary{background:rgba(255,255,255,.04);color:#bdbbb4}
+.pickRow{background:#15181a!important;border-color:rgba(255,255,255,.12)!important;color:var(--ink)!important}
+.pickRow.on{background:rgba(217,164,65,.18)!important;color:var(--goldHi)!important;border-color:var(--goldLine)!important}
+.pickHead{color:var(--muted)}
+.scopeSeg{border-color:rgba(255,255,255,.14)}
+.scopeSeg button{background:#15181a!important;color:var(--muted)!important}
+.scopeSeg button.on{background:rgba(217,164,65,.18)!important;color:var(--goldHi)!important}
+.scopeRow button{background:#15181a;color:var(--muted)}
+.scopeRow button.on{background:rgba(217,164,65,.18);color:var(--goldHi)}
+.tagChip{background:#15181a!important;border-color:rgba(255,255,255,.14)!important;color:var(--muted)!important}
+.tagChip.on{background:rgba(217,164,65,.18)!important;color:var(--goldHi)!important;border-color:var(--goldLine)!important}
+#ctxMenu{background:#0e1112;border-color:var(--goldLine);box-shadow:0 12px 36px rgba(0,0,0,.7)}
+#ctxMenu .ctxHead{color:var(--muted)}
+#ctxMenu button{color:var(--ink)}
+#ctxMenu hr{border-top-color:rgba(255,255,255,.1)}
+#ctxMenu button.danger{color:#e07b70}
+@media (hover:hover){#ctxMenu button:hover{background:rgba(255,255,255,.07)}
+ #ctxMenu button.danger:hover{background:rgba(224,123,112,.12)}
+ .sceneName:hover,.locName:hover{background:rgba(217,164,65,.14)}
+ .shot .cam:hover{background:rgba(255,255,255,.07);box-shadow:none}
+ .railArr.live:hover{opacity:1}
+ .daytabs button:hover::before,.loctabs button:hover::before{border-color:rgba(217,164,65,.6)}}
+#undoBar,#selBar{background:rgba(14,17,18,.96);border:1px solid var(--goldLine)}
+#undoBtn,#selBar button{background:var(--gold);color:#140f04}
+#selBar button.ghost{background:transparent;color:var(--muted);border-color:rgba(255,255,255,.14)}
+#locSearch{width:100%;padding:12px 11px;border-radius:10px;border:1px solid rgba(255,255,255,.14);
+ font-size:16px;margin:2px 0 8px}
+#locList .pickRow{flex-direction:column;align-items:flex-start;gap:4px}
+#locList .pickRow .lrName{font-size:12px;font-weight:950;letter-spacing:.06em}
+#locList .pickRow .lrSub{font-size:9.5px;font-weight:800;letter-spacing:.09em;opacity:.65}
+#locList .lrNone{font-size:11px;color:var(--faint);font-weight:800;padding:10px 2px}
+button:focus-visible{outline:2px solid var(--goldHi);outline-offset:2px}
+.daytabs button:focus-visible,.loctabs button:focus-visible{outline-color:var(--goldHi);
+ outline-offset:4px;border-radius:50%}
+#celebrate{background:rgba(4,6,7,.96)}
+
+/* ---- desktop: keep the working column, widen the branches ---- */
+@media (min-width:620px){
+ #app{max-width:620px}
+ .shot{min-height:120px}
+ .daytabs{gap:22px}
+ .loctabs{gap:18px}
+}
+@media (min-width:900px){ #app{max-width:720px} }
+@media (prefers-reduced-motion:reduce){
+ .railArr,.daytabs button::before,.loctabs button::before,.projRow button{transition:none}
+}
 </style>
 </head>
 <body>
 <div id="app">
   <div id="backdrop" aria-hidden="true"></div>
   <header class="top">
+    <button type="button" class="crumb" id="crumb" aria-label="Expand the navigator"><span id="crumbTxt"></span><span class="crumbChev" aria-hidden="true">⌄</span></button>
     <div class="brandRow">
       <div class="brand">
         <svg class="brandMark" viewBox="0 0 40 40" aria-hidden="true">
@@ -508,11 +943,30 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
           <div class="brandSub">LOVE GYPSY FILMS</div>
         </div>
       </div>
-    <nav class="projRow" id="projRow" aria-label="Projects">
+    <div class="projWrap" id="projWrap">
+      <button type="button" class="railArr prev" id="projPrev" aria-label="Previous projects" tabindex="-1">‹</button>
+      <nav class="projRow" id="projRow" aria-label="Projects">
       <button type="button" data-proj="diary">DIARY</button>
       <button type="button" data-proj="island">ISLAND</button>
       <button type="button" data-proj="prep">PREP</button>
-    </nav>
+      </nav>
+      <button type="button" class="railArr next" id="projNext" aria-label="More projects" tabindex="-1">›</button>
+    </div>
+    </div>
+    <div class="treeWrap" id="treeWrap">
+      <div class="treeArt" aria-hidden="true"></div>
+      <svg class="treeLines" id="treeLines" aria-hidden="true" focusable="false" preserveAspectRatio="none"></svg>
+      <div class="rail" id="dayRail">
+        <button type="button" class="railArr prev" id="dayPrev" aria-label="Previous locations" tabindex="-1">‹</button>
+        <nav class="daytabs" id="dayTabs" aria-label="Shoot days"></nav>
+        <button type="button" class="railArr next" id="dayNext" aria-label="More locations" tabindex="-1">›</button>
+      </div>
+      <div class="stripRow">
+        <button id="editBtn" type="button" aria-pressed="false" aria-label="Edit mode">EDIT</button>
+        <nav class="loctabs" id="locTabs" aria-label="Locations"></nav>
+      </div>
+      <div class="headStrip" id="headStrip"><button type="button" id="headStripBtn" aria-label="Go to this scene"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><rect x="2.3" y="2.3" width="11.4" height="11.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5 6h6M5 8.4h6M5 10.8h3.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span id="headStripTxt"></span></button></div>
+      <button type="button" class="allLocBtn" id="allLocBtn" aria-label="All locations"></button>
     </div>
     <div class="dayrow">
       <button id="delDayBtn" type="button" aria-label="Delete this tab"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.7 4.3h10.6M6.4 4.3V3h3.2v1.3M4.2 4.3l.6 8.2a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9l.6-8.2M6.7 6.7v4.3M9.3 6.7v4.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="daytitle" id="dayTitle">ISLAND</div>
@@ -520,11 +974,6 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
       <div style="display:flex;gap:6px;align-items:center"><button id="pickBtn" type="button" aria-label="Pickups — drag shots here">PICKUPS<i id="pickN">0</i></button><button id="filterBtn" aria-label="Isolate shots" title="Show only one camera, person or shot type across the whole shoot"><span class="fGlyph">⑂</span><span class="fLbl">SHOTS</span></button><button id="dayCheck" aria-label="Mark day complete">✓</button><button class="menuBtn" id="menuBtn" aria-label="Menu">•••</button><button id="hdrToggle" type="button" aria-expanded="true" aria-label="Minimise header" title="Minimise header"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 10.6 8 5.6l5 5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
     </div>
     <div class="progressbar"><i id="progressFill"></i></div>
-    <nav class="daytabs" id="dayTabs" aria-label="Shoot days"></nav>
-    <div class="stripRow">
-      <button id="editBtn" type="button" aria-pressed="false" aria-label="Edit mode">EDIT</button>
-      <nav class="loctabs" id="locTabs" aria-label="Locations"></nav>
-    </div>
   </header>
   <nav class="filterBar" id="filterBar" aria-label="Active filter"></nav>
   <main class="main" id="scroller"><div id="dayArea"><div class="empty">Loading field cards…</div></div></main>
@@ -576,7 +1025,7 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
   <button id="backupBtn">Backup / move to another device</button>
   <button id="hapticBtn" class="secondary">Haptics: on</button>
   <button id="updateBtn">Check for update</button>
-  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-09-14-G</button>
+  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-10-08-A</button>
   <button id="closeSheet" class="secondary">Close</button>
 </div></div>
 <div class="sheet" id="durSheet"><div class="sheetBox">
@@ -676,6 +1125,12 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
   <button id="headRename">Rename scene</button>
   <button id="closeHead" class="secondary">Cancel</button>
 </div></div>
+<div class="sheet" id="locSheet"><div class="sheetBox">
+  <h2 id="locSheetTitle">All locations</h2>
+  <input id="locSearch" type="text" autocomplete="off" placeholder="Search locations…" aria-label="Search locations">
+  <div class="pickList" id="locList"></div>
+  <button id="closeLocSheet" class="secondary">Cancel</button>
+</div></div>
 <div class="sheet" id="renameSheet"><div class="sheetBox">
   <h2>Rename</h2>
   <input id="renameInput" type="text" autocomplete="off">
@@ -732,7 +1187,7 @@ function loadProject(pid){
    }
  }catch(e){}
  OPS=readStore(K('ops-v2'));
- OPS.shots=OPS.shots||{}; OPS.scenes=OPS.scenes||{}; OPS.names=OPS.names||{}; OPS.adds=OPS.adds||{}; OPS.sceneAdds=OPS.sceneAdds||{}; OPS.order=OPS.order||{}; OPS.text=OPS.text||{}; OPS.del=OPS.del||{}; OPS.dates=OPS.dates||{}; OPS.delScene=OPS.delScene||{}; OPS.delLoc=OPS.delLoc||{}; OPS.sceneOrder=OPS.sceneOrder||{}; OPS.locOrder=OPS.locOrder||{}; OPS.rig=OPS.rig||{}; OPS.band=OPS.band||{}; OPS.dayNames=OPS.dayNames||{}; OPS.dayNote=OPS.dayNote||{}; OPS.dayAdds=OPS.dayAdds||{}; OPS.delDay=OPS.delDay||{}; OPS.dayOrder=OPS.dayOrder||{};
+ OPS.shots=OPS.shots||{}; OPS.scenes=OPS.scenes||{}; OPS.names=OPS.names||{}; OPS.adds=OPS.adds||{}; OPS.sceneAdds=OPS.sceneAdds||{}; OPS.order=OPS.order||{}; OPS.text=OPS.text||{}; OPS.del=OPS.del||{}; OPS.dates=OPS.dates||{}; OPS.delScene=OPS.delScene||{}; OPS.delLoc=OPS.delLoc||{}; OPS.sceneOrder=OPS.sceneOrder||{}; OPS.locOrder=OPS.locOrder||{}; OPS.rig=OPS.rig||{}; OPS.band=OPS.band||{}; OPS.dayNames=OPS.dayNames||{}; OPS.dayNote=OPS.dayNote||{}; OPS.dayAdds=OPS.dayAdds||{}; OPS.delDay=OPS.delDay||{}; OPS.dayOrder=OPS.dayOrder||{}; OPS.previs=OPS.previs||{};
  // one-time: day-complete used to be keyed by the label text
  try{
    if(localStorage.getItem('island-daydone-byid-'+pid)!=='1'){
@@ -1234,9 +1689,23 @@ function shotText(q){
  const p=prefixFor(q);
  return {label:(p?p+' — ':'')+s.head.toUpperCase(), detail:cleanDetail(s.tail,p)};
 }
+/* ---- optional previs ------------------------------------------------------
+   Previs is deliberately opt-in and absent by default: a shot with no image is
+   a complete shot, and no card ever reserves blank space for one. OPS.previs
+   is the single read point — fill it with a URL per shot id and the footer
+   icon appears, tapping it reveals the thumbnail. Nothing generates images. */
+function shotPrevis(q){ try{ const v=OPS.previs&&OPS.previs[q.id]; return (typeof v==='string'&&v)?v:''; }catch(e){ return ''; } }
+function previsHTML(q){
+ if(!shotPrevis(q)) return '';
+ return `<button type="button" class="previsBtn" data-previs="${q.id}" aria-label="Show previsualisation"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><rect x="1.8" y="3" width="12.4" height="10" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="5.6" cy="6.5" r="1.1" fill="currentColor"/><path d="M2.4 11.6 6.2 8.2l2.5 2.2 2.3-1.9 2.6 2.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>`;
+}
+function previsImgHTML(q){
+ const src=shotPrevis(q);
+ return src?`<div class="previsWrap" data-previswrap="${q.id}" hidden><img alt="" loading="lazy" src="${esc(src)}"></div>`:'';
+}
 function shotCard(q,i){
  const t=shotText(q);
- return `<div class="shot ${q.cameraCode} ${state.done[q.id]?'done':''} ${state.flash===q.id?'flash':''}" data-shot="${q.id}"><div class="shotLabel" data-edit="label" data-for="${q.id}">${esc(t.label)}</div>${t.detail?`<div class="shotDetail" data-edit="detail" data-for="${q.id}">${esc(t.detail)}</div>`:`<div class="shotDetail empty2" data-edit="detail" data-for="${q.id}"></div>`}${q.meta?`<div class="meta">${q.meta}</div>`:''}${q.rescheduledFrom?`<div class="rescheduledTag">FROM ${shortDay(q.rescheduledFrom)}</div>`:''}${q.added?'<div class="rescheduledTag addedTag">NEW</div>':''}<div class="shotFoot"><span class="num">${String(i+1).padStart(2,'0')}</span><button type="button" class="cam" data-rig="${q.cameraCode}" title="Isolate — show every ${q.camera} shot across the shoot" aria-label="Show only ${q.camera} shots">${svg(q.cameraCode)}</button></div><button class="moveBtn" type="button" data-move="${q.id}" aria-label="Move shot">↗</button></div>`;
+ return `<div class="shot ${q.cameraCode} ${state.done[q.id]?'done':''} ${state.flash===q.id?'flash':''}" data-shot="${q.id}"><div class="shotLabel" data-edit="label" data-for="${q.id}">${esc(t.label)}</div>${t.detail?`<div class="shotDetail" data-edit="detail" data-for="${q.id}">${esc(t.detail)}</div>`:`<div class="shotDetail empty2" data-edit="detail" data-for="${q.id}"></div>`}${q.meta?`<div class="meta">${q.meta}</div>`:''}${q.rescheduledFrom?`<div class="rescheduledTag">FROM ${shortDay(q.rescheduledFrom)}</div>`:''}${q.added?'<div class="rescheduledTag addedTag">NEW</div>':''}${previsImgHTML(q)}<div class="shotFoot"><span class="num">${String(i+1).padStart(2,'0')}</span><button type="button" class="cam" data-rig="${q.cameraCode}" title="Isolate — show every ${q.camera} shot across the shoot" aria-label="Show only ${q.camera} shots">${svg(q.cameraCode)}</button>${previsHTML(q)}<button class="moveBtn" type="button" data-move="${q.id}" aria-label="Move shot">↗</button></div></div>`;
 }
 function sceneHTML(s,tone){
  const cards=s.shots.map((q,i)=>shotCard(q,i)).join('')+`<button type="button" class="shot addTile" data-addshot="${s.id}">＋<span>ADD SHOT</span></button>`;
@@ -1280,7 +1749,7 @@ function locationSectionHTML(item,idx){
    : ((l.notes||[]).length ? `<div class="empty">${l.notes.join('<br>')}</div>` : `<div class="emptyAdd"><button type="button" class="addTile addLoc" data-addloc="${l.id}" aria-label="Add shot">＋</button></div>`);
  const locNotes=(vs.length && (l.notes||[]).length)?`<div class="notes">${l.notes.join(' · ')}</div>`:'';
  return `<section class="locSection tone-${tone}" id="loc-${idx}" data-locidx="${idx}" data-locid="${l.id}">
-   <div class="locationHead"><button type="button" class="headDel" data-delloc="${l.id}" aria-label="Delete this location"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.7 4.3h10.6M6.4 4.3V3h3.2v1.3M4.2 4.3l.6 8.2a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9l.6-8.2M6.7 6.7v4.3M9.3 6.7v4.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h2><span class="locNum" data-grip="1">${String(idx+1).padStart(2,'0')}</span>${slateHTML(l)}</h2><div class="statsWrap"><button type="button" class="bandChip" data-band="${l.id}">${esc((item.tb&&item.tb.label)||'')}</button><div class="stats">${vs.length} ${vs.length===1?'SCENE':'SCENES'}<br>${lp.done} / ${lp.total} COMPLETE</div>${locDurHTML(l)}</div></div>
+   <div class="locationHead"><button type="button" class="headDel" data-delloc="${l.id}" aria-label="Delete this location"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.7 4.3h10.6M6.4 4.3V3h3.2v1.3M4.2 4.3l.6 8.2a1 1 0 0 0 1 .9h4.4a1 1 0 0 0 1-.9l.6-8.2M6.7 6.7v4.3M9.3 6.7v4.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h2><span class="locNum" data-grip="1">${String(idx+1).padStart(2,'0')}</span>${slateHTML(l)}</h2><div class="statsWrap"><button type="button" class="bandChip" data-band="${l.id}">${esc((item.tb&&item.tb.label)||'')}</button><div class="stats"><span>${vs.length} ${vs.length===1?'SCENE':'SCENES'}</span><span>${lp.done} / ${lp.total} COMPLETE</span></div>${locDurHTML(l)}</div></div>
    ${scenesHTML}${locNotes}
  </section>`;
 }
@@ -1291,9 +1760,18 @@ function dayTabTip(day){
  if(!booked.length) return tabName(day.label)+' — nothing scheduled yet';
  return tabName(day.label)+' — '+booked.join(' + ')+' booked'+(free.length?' · '+free.join(' + ')+' free':' · full day');
 }
+/* The node is a ring; leaving it empty wastes the one place a glance lands.
+   What goes inside is what you actually want from a location at a distance:
+   how much of it is still to shoot. */
+function nodeCountHTML(x){
+ const p=countShots(x);
+ if(!p.total) return `<span class="nodeN empty">·</span>`;
+ if(p.done>=p.total) return `<span class="nodeN done">✓</span>`;
+ return `<span class="nodeN">${p.total-p.done}</span>`;
+}
 function renderTabs(locs){
  const showFill=P().unit==='DAY';
- $('dayTabs').innerHTML=W.work.map((x,i)=>`<button data-day="${i}" data-dayid="${x.id}" class="${i===state.day?'on':''} ${state.dayDone[x.id]?'daydone':''} ${showFill?'hasFill':''}" title="${showFill?esc(dayTabTip(x)):''}"><span class="tabTxt">${state.dayDone[x.id]?'✓ ':''}${tabName(x.label)}</span>${showFill?dayFillHTML(x):''}</button>`).join('') + (EDITMODE?`<button data-addday="1" aria-label="Add a tab">+</button>`:'')
+ $('dayTabs').innerHTML=W.work.map((x,i)=>`<button data-day="${i}" data-dayid="${x.id}" class="${i===state.day?'on':''} ${state.dayDone[x.id]?'daydone':''} ${showFill?'hasFill':''}" title="${showFill?esc(dayTabTip(x)):''}">${nodeCountHTML(x)}<span class="tabTxt">${state.dayDone[x.id]?'✓ ':''}${tabName(x.label)}</span>${showFill?dayFillHTML(x):''}</button>`).join('') + (EDITMODE?`<button data-addday="1" aria-label="Add a tab">+</button>`:'')
  + (W.holding.length||state.day===-1
        ? `<button data-holding="1" class="${state.day===-1?'on':''}">PICKUPS · ${W.holding.length}</button>` : '');
  $('dayTabs').querySelectorAll('button[data-day]').forEach(b=>b.addEventListener('click',()=>{if(justDragged)return;state.day=+b.dataset.day;activeLoc=0;render();$('scroller').scrollTop=0;}));
@@ -1315,6 +1793,7 @@ function renderTabs(locs){
    const el=document.getElementById('loc-'+b.dataset.loc);
    if(el){ suppressSpyUntil=Date.now()+700; setActiveLoc(+b.dataset.loc); const smooth=!window.matchMedia('(prefers-reduced-motion: reduce)').matches; el.scrollIntoView({block:'start',behavior:smooth?'smooth':'auto'}); }
  }));
+ if(window.treeSync) window.treeSync();
 }
 let activeLoc=0, suppressSpyUntil=0;
 function setActiveLoc(i){
@@ -1322,6 +1801,7 @@ function setActiveLoc(i){
  $('locTabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.loc===i));
  // only the active tab carries its name; the rest are just numbers
  const on=$('locTabs').querySelector('button.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
+ if(window.treeSync) window.treeSync();
 }
 function renderHolding(){
  const hs=W.holding;
@@ -3092,6 +3572,15 @@ function alignCounter(){
 addEventListener('resize',()=>{ try{ alignCounter(); }catch(e){} });
 addEventListener('orientationchange',()=>{ setTimeout(()=>{ try{ alignCounter(); }catch(e){} },120); });
 function refreshLocTabs(){
+  // a tick changes what the location node says it has left, so refresh that too
+  try{
+    document.querySelectorAll('#dayTabs button[data-day]').forEach(b=>{
+      const x=W.work[+b.dataset.day]; if(!x) return;
+      const n=b.querySelector('.nodeN'); if(!n) return;
+      n.outerHTML=nodeCountHTML(x);
+    });
+  }catch(e){}
+  if(window.treeSync) window.treeSync();
   const nav=document.getElementById('locTabs'); if(!nav) return;
   nav.querySelectorAll('button[data-locid]').forEach(b=>{
     const rec=W.locBy[b.dataset.locid]; if(!rec) return;
@@ -3432,6 +3921,7 @@ $('projRow').querySelectorAll('button').forEach(b=>b.addEventListener('click',()
  syncProjectChrome();
  render();
  $('scroller').scrollTop=0;
+ if(window.treeSync) window.treeSync();
 }));
 let startPid='island';
 try{
@@ -3479,6 +3969,286 @@ window.APPBRIDGE={
     }catch(e){}
   }
 };
+
+/* ==========================================================================
+   RADIANT TREE — navigator behaviour
+   --------------------------------------------------------------------------
+   Nothing here owns any state. The tabs, the pills and the project row are
+   still the app's own controls doing their own jobs; this layer only reads
+   where they ended up on screen and draws the branches between them, keeps
+   one heading strip and one breadcrumb in step, and opens an overview when
+   there are more locations than a phone-width branch can carry.
+
+   Every entry point is wrapped, because a navigator that throws must never
+   take the shot list down with it.
+   ========================================================================== */
+(function(){
+ const $$=id=>document.getElementById(id);
+ const reduced=()=>{ try{ return matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+
+ /* ---- branches ---------------------------------------------------------
+    Measured, never hard-coded: one path from the selected location node down
+    to the scene rail, one along the rail to each scene node, and a spur from
+    each sibling location into the selected one. Works for two nodes or forty. */
+ function drawTree(){
+  const svg=$$('treeLines'), wrap=$$('treeWrap');
+  if(!svg||!wrap||!wrap.offsetParent) return;
+  const W=wrap.clientWidth, H=wrap.clientHeight;
+  if(!W||!H){ svg.innerHTML=''; return; }
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  const base=wrap.getBoundingClientRect();
+  const pt=(el,fx,fy)=>{ const r=el.getBoundingClientRect();
+    return {x:r.left-base.left+r.width*fx, y:r.top-base.top+r.height*fy}; };
+  const vis=el=>{ if(!el||!el.offsetParent) return false;
+    const r=el.getBoundingClientRect();
+    return r.right>base.left+2 && r.left<base.right-2; };
+
+  const dayRow=$$('dayTabs'), locRow=$$('locTabs');
+  const days=dayRow?[].slice.call(dayRow.querySelectorAll('button')):[];
+  const locs=(locRow&&locRow.style.display!=='none')
+    ?[].slice.call(locRow.querySelectorAll('button')):[];
+  const onDay=days.filter(b=>b.classList.contains('on'))[0]||null;
+  const onLoc=locs.filter(b=>b.classList.contains('on'))[0]||null;
+  const d=[];
+
+  // node radius is whatever the CSS circle actually is
+  const rad=el=>Math.min(el.getBoundingClientRect().width,46)/2;
+
+  if(onDay&&vis(onDay)){
+   const c=pt(onDay,.5,0), n=rad(onDay), cy=c.y+n;
+   // siblings lean in towards the selected node
+   days.forEach(b=>{ if(b===onDay||!vis(b)) return;
+     const s=pt(b,.5,0), sy=s.y+rad(b), mid=(s.x+c.x)/2;
+     d.push({p:`M${s.x.toFixed(1)} ${sy.toFixed(1)} C${mid.toFixed(1)} ${sy.toFixed(1)} ${mid.toFixed(1)} ${cy.toFixed(1)} ${(c.x+(s.x<c.x?-n:n)).toFixed(1)} ${cy.toFixed(1)}`});
+   });
+   if(locs.length){
+    const top=pt(locs[0],.5,0).y;
+    const stem=Math.max(cy+4,(cy+top)/2);
+    d.push({p:`M${c.x.toFixed(1)} ${(c.y+n*2).toFixed(1)} L${c.x.toFixed(1)} ${stem.toFixed(1)}`,live:true});
+    let first=null,last=null;
+    locs.forEach(b=>{ if(!vis(b)) return;
+      const s=pt(b,.5,0);
+      if(first===null) first=s.x; last=s.x;
+      d.push({p:`M${s.x.toFixed(1)} ${stem.toFixed(1)} L${s.x.toFixed(1)} ${s.y.toFixed(1)}`,
+              live:b===onLoc});
+    });
+    if(first!==null) d.push({p:`M${Math.min(first,c.x).toFixed(1)} ${stem.toFixed(1)} L${Math.max(last,c.x).toFixed(1)} ${stem.toFixed(1)}`});
+   }
+  }
+
+  // the active scene's branch carries on down towards its card
+  const strip=$$('headStrip');
+  if(onLoc&&vis(onLoc)&&strip&&!strip.hidden&&strip.offsetParent){
+   const s=pt(onLoc,.5,1), t=pt(strip,.5,0);
+   d.push({p:`M${s.x.toFixed(1)} ${s.y.toFixed(1)} L${s.x.toFixed(1)} ${((s.y+t.y)/2).toFixed(1)} L${t.x.toFixed(1)} ${((s.y+t.y)/2).toFixed(1)} L${t.x.toFixed(1)} ${t.y.toFixed(1)}`,live:true});
+  }
+
+  svg.innerHTML=d.map(o=>`<path d="${o.p}"${o.live?' class="live"':''}/>`).join('')
+   + (onDay&&vis(onDay)?`<circle cx="${pt(onDay,.5,0).x.toFixed(1)}" cy="${(pt(onDay,.5,0).y+rad(onDay)).toFixed(1)}" r="2.4" class="live"/>`:'');
+ }
+
+ /* ---- the one heading strip, and the position indicator ---- */
+ function locRecord(i){
+  try{
+   if(state.day<0) return null;
+   const day=W.work[state.day]; if(!day) return null;
+   const list=allLocations(day); return list[i]||null;
+  }catch(e){ return null; }
+ }
+ /* The strip has to say something the node above it does not. On a DIARY slate
+    the place is already the location node's own label, so repeating it tells
+    you nothing — the first beat is what distinguishes SC 7 from SC 8. Free-form
+    ISLAND and PREP names carry their own meaning, so those are shown as they are. */
+ function placeName(l){
+  try{
+   const sl=slateParts(l.name);
+   if(!sl) return l.name||'';
+   const vs=visScenes(l);
+   if(vs.length&&vs[0].name) return vs[0].name;
+   return [sl.place,sl.time].filter(Boolean).join(' · ');
+  }catch(e){ return (l&&l.name)||''; }
+ }
+ function syncStrip(){
+  const strip=$$('headStrip'), txt=$$('headStripTxt');
+  if(!strip||!txt) return;
+  const rec=locRecord(activeLoc);
+  if(!rec||state.day<0){ strip.hidden=true; return; }
+  strip.hidden=false;
+  txt.textContent=placeName(rec.l);
+ }
+ function syncAllBtn(){
+  const b=$$('allLocBtn'); if(!b) return;
+  let days=[],cur=-1;
+  try{ days=W.work||[]; cur=state.day; }catch(e){}
+  // the control earns its place once the branch cannot hold every location
+  if(state.day<0||days.length<2){ b.classList.remove('live'); return; }
+  const name=tabName(days[cur]?days[cur].label:'')||'';
+  b.classList.add('live');
+  b.innerHTML=`<b>${esc(String(name).toUpperCase())}</b> · ${cur+1} OF ${days.length}`;
+ }
+ function syncCrumb(){
+  const c=$$('crumbTxt'); if(!c) return;
+  let proj='',place='',num='';
+  try{
+   proj=String(P().label||PID||'').toUpperCase();
+   if(state.day<0) place='PICKUPS';
+   else{ place=String(tabName(W.work[state.day].label)||'').toUpperCase();
+         num=String(activeLoc+1).padStart(2,'0'); }
+  }catch(e){}
+  c.innerHTML=`<b>${esc(proj)}</b><i>→</i>${esc(place)}`+(num?`<i>→</i><b>${num}</b>`:'');
+ }
+
+ /* ---- overflow arrows: shown only when there is somewhere to go ---- */
+ function wireRail(row,prev,next){
+  const r=$$(row), p=$$(prev), n=$$(next);
+  if(!r||!p||!n) return;
+  const step=()=>Math.max(80,Math.round(r.clientWidth*.7));
+  const upd=()=>{
+   const over=r.scrollWidth-r.clientWidth>4;
+   p.classList.toggle('live',over&&r.scrollLeft>4);
+   n.classList.toggle('live',over&&r.scrollLeft<r.scrollWidth-r.clientWidth-4);
+  };
+  const go=dir=>{ try{ r.scrollBy({left:dir*step(),behavior:reduced()?'auto':'smooth'}); }catch(e){ r.scrollLeft+=dir*step(); } };
+  p.addEventListener('click',e=>{ e.preventDefault(); go(-1); });
+  n.addEventListener('click',e=>{ e.preventDefault(); go(1); });
+  r.addEventListener('scroll',()=>{ upd(); schedule(); },{passive:true});
+  // a trackpad's horizontal gesture already works; give a plain wheel the same
+  // reach without ever stealing the page's vertical scroll
+  r.addEventListener('wheel',e=>{
+   if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return;
+   if(r.scrollWidth-r.clientWidth<=4) return;
+   const at=(e.deltaY<0&&r.scrollLeft<=0)||(e.deltaY>0&&r.scrollLeft>=r.scrollWidth-r.clientWidth-1);
+   if(at) return;                       // let the page have it at either end
+   e.preventDefault(); r.scrollLeft+=e.deltaY;
+  },{passive:false});
+  wireKeys(r);
+  r.__updArrows=upd;
+ }
+ // left/right move between nodes when one has focus
+ function wireKeys(r){
+  if(!r||r.__keys) return; r.__keys=1;
+  r.addEventListener('keydown',e=>{
+   if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft') return;
+   const bs=[].slice.call(r.querySelectorAll('button'));
+   const i=bs.indexOf(document.activeElement); if(i<0) return;
+   const t=bs[i+(e.key==='ArrowRight'?1:-1)];
+   if(t){ e.preventDefault(); t.focus(); t.scrollIntoView({block:'nearest',inline:'nearest'}); }
+  });
+ }
+ function syncArrows(){
+  ['projRow','dayTabs'].forEach(id=>{ const r=$$(id); if(r&&r.__updArrows) try{ r.__updArrows(); }catch(e){} });
+ }
+
+ /* ---- collapse: the tree is worth its space between setups, not during one --- */
+ let navMin=false, lastY=0;
+ function setNavMin(on){
+  on=!!on; if(on===navMin) return;
+  navMin=on; document.body.classList.toggle('navmin',on);
+  const b=$$('hdrToggle');
+  if(b){ const l=on?'Expand the navigator':'Minimise the navigator';
+    b.setAttribute('aria-expanded',on?'false':'true'); b.setAttribute('aria-label',l); b.title=l; }
+  schedule();
+ }
+ function wireCollapse(){
+  const sc=$$('scroller'); if(!sc) return;
+  sc.addEventListener('scroll',()=>{
+   const y=sc.scrollTop;
+   if(y>96&&y>lastY+6) setNavMin(true);
+   else if(y<40||y<lastY-24) setNavMin(false);
+   lastY=y;
+  },{passive:true});
+  // the breadcrumb is the way back up; the header's own toggle stays the
+  // deliberate, remembered collapse and is left exactly as it was
+  const c=$$('crumb'); if(c) c.addEventListener('click',()=>{
+   setNavMin(false);
+   try{ if(document.body.classList.contains('hdrmin')) setHdrMin(false); }catch(e){}
+   try{ sc.scrollTo({top:0,behavior:reduced()?'auto':'smooth'}); }catch(e){ sc.scrollTop=0; }
+  });
+  const t=$$('hdrToggle'); if(t) t.addEventListener('click',()=>setTimeout(schedule,30));
+ }
+
+ /* ---- all-locations overview ---- */
+ function openLocSheet(){
+  const sheet=$$('locSheet'), list=$$('locList'), q=$$('locSearch');
+  if(!sheet||!list) return;
+  function paint(){
+   const term=((q&&q.value)||'').trim().toLowerCase();
+   let rows=[];
+   try{
+    rows=(W.work||[]).map((d,i)=>{
+     const p=countShots(d);
+     return {i,name:String(tabName(d.label)||d.label||''),done:p.done,total:p.total};
+    }).filter(r=>!term||r.name.toLowerCase().indexOf(term)>=0);
+   }catch(e){}
+   if(!rows.length){ list.innerHTML='<div class="lrNone">Nothing matches that.</div>'; return; }
+   list.innerHTML=rows.map(r=>`<button type="button" class="pickRow ${r.i===state.day?'on':''}" data-go="${r.i}">`
+    +`<span class="lrName">${esc(r.name.toUpperCase())}</span>`
+    +`<span class="lrSub">${r.done} / ${r.total} COMPLETE</span></button>`).join('');
+   list.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+    const i=+b.dataset.go;
+    close();
+    try{ state.day=i; activeLoc=0; render(); $('scroller').scrollTop=0; setNavMin(false); }catch(e){}
+   }));
+  }
+  function close(){ sheet.classList.remove('on'); if(q) q.value=''; }
+  sheet.__close=close;
+  if(q&&!q.__wired){ q.__wired=true; q.addEventListener('input',paint); }
+  paint(); sheet.classList.add('on');
+  // not auto-focused: a keyboard springing up over the list helps nobody on a phone
+ }
+ function wireSheet(){
+  const b=$$('allLocBtn'); if(b) b.addEventListener('click',openLocSheet);
+  const c=$$('closeLocSheet'); if(c) c.addEventListener('click',()=>{ const s=$$('locSheet'); if(s){ if(s.__close) s.__close(); else s.classList.remove('on'); } });
+  const s=$$('locSheet'); if(s) s.addEventListener('click',e=>{ if(e.target===s&&s.__close) s.__close(); });
+ }
+
+ /* ---- heading strip tap: go to the card it names ---- */
+ function wireStrip(){
+  const b=$$('headStripBtn'); if(!b) return;
+  b.addEventListener('click',()=>{
+   const el=document.getElementById('loc-'+activeLoc); if(!el) return;
+   try{ suppressSpyUntil=Date.now()+700; }catch(e){}
+   el.scrollIntoView({block:'start',behavior:reduced()?'auto':'smooth'});
+   el.classList.add('live'); setTimeout(()=>el.classList.remove('live'),1400);
+  });
+ }
+
+ /* ---- previs: reveal only what is actually there ---- */
+ document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('[data-previs]'); if(!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const w=document.querySelector('[data-previswrap="'+b.dataset.previs+'"]');
+  if(w) w.hidden=!w.hidden;
+ },true);
+
+ /* ---- one scheduler, so a burst of changes is one measure ---- */
+ let raf=null;
+ function schedule(){ if(raf) return; raf=requestAnimationFrame(()=>{ raf=null; run(); }); }
+ function run(){
+  try{ syncStrip(); }catch(e){}
+  try{ syncAllBtn(); }catch(e){}
+  try{ syncCrumb(); }catch(e){}
+  try{ syncArrows(); }catch(e){}
+  try{ drawTree(); }catch(e){}
+ }
+ window.treeSync=schedule;
+
+ function boot(){
+  try{ wireRail('projRow','projPrev','projNext'); }catch(e){}
+  try{ wireRail('dayTabs','dayPrev','dayNext'); }catch(e){}
+  try{ wireCollapse(); }catch(e){}
+  try{ wireSheet(); }catch(e){}
+  try{ wireStrip(); }catch(e){}
+  const locRow=$$('locTabs');
+  if(locRow){ locRow.addEventListener('scroll',schedule,{passive:true}); wireKeys(locRow); }
+  addEventListener('resize',schedule);
+  addEventListener('orientationchange',()=>setTimeout(schedule,140));
+  try{ if(window.ResizeObserver){ const ro=new ResizeObserver(schedule); const t=$$('treeWrap'); if(t) ro.observe(t); } }catch(e){}
+  schedule(); setTimeout(schedule,220); setTimeout(schedule,700);
+ }
+ if(document.readyState==='loading') addEventListener('DOMContentLoaded',boot);
+ else boot();
+})();
 </script>
 <script type="module" src="./cloud-sync.js"></script>
 </body>
