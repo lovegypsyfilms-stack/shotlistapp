@@ -504,10 +504,13 @@ body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(232,181,58,
    ========================================================================== */
 :root{
  --bg:#070809; --surface:#0b0d0e; --panel:#101314; --panel2:#0d1011;
- --ink:#f2f0ea; --muted:#8e8f89; --faint:#63645f;
- --gold:#d9a441; --goldHi:#f0c268; --goldLine:rgba(217,164,65,.34); --goldFaint:rgba(217,164,65,.14);
- --blue:#2f9bff; --blueDim:#1d6fbd;
- --rule:rgba(217,164,65,.20); --ruleHard:rgba(217,164,65,.30);
+ --ink:#f6f4ee; --muted:#aaaba3; --faint:#86877f;
+ --gold:#dfae52; --goldHi:#f6cd7a; --goldLine:rgba(223,174,82,.48); --goldFaint:rgba(223,174,82,.22);
+ /* The mockup's blue sits at 6.6:1 on this ground — fine for a logo, not for a
+    shot title read at arm's length in daylight. This one is the same hue and
+    still unmistakably electric, at better than 11:1. */
+ --blue:#8cd0ff; --blueDim:#1d6fbd;
+ --rule:rgba(223,174,82,.34); --ruleHard:rgba(223,174,82,.46);
  --glow:0 0 14px rgba(240,194,104,.28);
 }
 html,body{background:#000;color:var(--ink)}
@@ -516,8 +519,8 @@ html,body{background:#000;color:var(--ink)}
 .top::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#000 0%,#05070a 46%,var(--bg) 100%);z-index:-1}
 
 /* ---- brand ---- */
-.brandRow{margin-bottom:9px}
-.brandName{color:var(--gold);letter-spacing:.22em;font-size:16px}
+.brandRow{margin-bottom:6px}
+.brandName{color:var(--gold);letter-spacing:.2em;font-size:14px}
 .brandSub{color:var(--faint);letter-spacing:.2em}
 .brandMark path[fill="none"],.brandMark path[stroke="#fff"]{stroke:var(--gold)}
 .brandMark path[fill="#fff"]{fill:var(--gold)}
@@ -534,58 +537,69 @@ html,body{background:#000;color:var(--ink)}
  transition:opacity .18s ease;-webkit-tap-highlight-color:transparent}
 .railArr.live{opacity:.85;pointer-events:auto}
 .railArr:active{opacity:1;text-shadow:var(--glow)}
-.projRow{gap:5px;scroll-snap-type:x mandatory;justify-content:flex-start;
- border:1px solid var(--goldLine);border-radius:16px;padding:3px}
+.projRow{gap:4px;scroll-snap-type:x mandatory;justify-content:flex-start;
+ border:1px solid var(--goldLine);border-radius:15px;padding:2px}
 .projRow button{min-width:0;border:0;background:transparent;color:var(--muted);
- border-radius:13px;padding:6px 14px;font-size:9.5px;letter-spacing:.14em;scroll-snap-align:center;
- min-height:26px;transition:color .16s ease,background .16s ease}
+ border-radius:13px;padding:5px 13px;font-size:9.5px;letter-spacing:.13em;scroll-snap-align:center;
+ min-height:25px;transition:color .16s ease,background .16s ease}
 .projRow button.on{background:rgba(217,164,65,.12);color:var(--goldHi);
  box-shadow:inset 0 0 0 1px rgba(217,164,65,.55),0 0 10px rgba(217,164,65,.16)}
 
 /* ---- the tree region: the only place the forest shows ---- */
-.treeWrap{position:relative;margin:0 -14px;padding:4px 14px 10px;isolation:isolate}
+.treeWrap{position:relative;margin:0 -14px;padding:2px 14px 6px;isolation:isolate}
+/* The canopy has to be seen to be worth having, so this is drawn at a weight
+   you actually notice: a lit forest floor, boughs that fork and taper, and
+   warm bokeh between them. It is still only ever behind the navigator — the
+   mask fades it out before any shot text begins. */
 .treeArt{position:absolute;inset:0;z-index:-2;overflow:hidden;
  background:
-  radial-gradient(1.6px 1.6px at 12% 22%,rgba(255,206,120,.55),transparent 60%),
-  radial-gradient(2.2px 2.2px at 78% 16%,rgba(255,206,120,.42),transparent 60%),
-  radial-gradient(1.4px 1.4px at 34% 70%,rgba(255,206,120,.40),transparent 60%),
-  radial-gradient(2.6px 2.6px at 88% 62%,rgba(255,206,120,.30),transparent 60%),
-  radial-gradient(1.8px 1.8px at 57% 40%,rgba(255,206,120,.34),transparent 60%),
-  radial-gradient(1.5px 1.5px at 22% 88%,rgba(255,206,120,.26),transparent 60%),
-  radial-gradient(2px 2px at 66% 84%,rgba(255,206,120,.22),transparent 60%),
-  radial-gradient(120% 80% at 50% 8%,rgba(28,42,30,.85),transparent 72%),
-  radial-gradient(90% 70% at 18% 52%,rgba(20,34,24,.70),transparent 70%),
-  radial-gradient(90% 70% at 84% 46%,rgba(18,30,22,.66),transparent 70%),
-  linear-gradient(180deg,#0a1210 0%,#080d0c 55%,var(--bg) 100%);
+  radial-gradient(3px 3px at 12% 20%,rgba(255,206,120,.95),transparent 62%),
+  radial-gradient(4.5px 4.5px at 78% 14%,rgba(255,214,136,.80),transparent 62%),
+  radial-gradient(2.6px 2.6px at 34% 68%,rgba(255,206,120,.72),transparent 62%),
+  radial-gradient(5px 5px at 88% 58%,rgba(255,198,104,.52),transparent 62%),
+  radial-gradient(3.4px 3.4px at 57% 36%,rgba(255,214,136,.66),transparent 62%),
+  radial-gradient(2.4px 2.4px at 22% 86%,rgba(255,206,120,.42),transparent 62%),
+  radial-gradient(3.8px 3.8px at 66% 80%,rgba(255,206,120,.40),transparent 62%),
+  radial-gradient(2.2px 2.2px at 45% 12%,rgba(255,224,160,.70),transparent 62%),
+  radial-gradient(3px 3px at 7% 54%,rgba(255,206,120,.46),transparent 62%),
+  radial-gradient(2.8px 2.8px at 94% 30%,rgba(255,206,120,.50),transparent 62%),
+  radial-gradient(130% 86% at 50% 4%,rgba(36,58,39,.90),transparent 74%),
+  radial-gradient(95% 76% at 16% 48%,rgba(25,45,30,.84),transparent 72%),
+  radial-gradient(95% 76% at 86% 42%,rgba(22,40,27,.80),transparent 72%),
+  linear-gradient(180deg,#0e1a13 0%,#0a1410 48%,#070b0a 82%,var(--bg) 100%);
 }
-/* a suggestion of canopy, not a photograph — it must never sit behind body text */
-.treeArt::after{content:'';position:absolute;inset:0;opacity:.5;
- background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='120' viewBox='0 0 160 120'><g fill='none' stroke='%231d3326' stroke-width='3' stroke-linecap='round'><path d='M80 120 L80 66 M80 78 L54 48 M80 74 L108 44 M54 48 L38 26 M54 48 L60 20 M108 44 L128 22 M108 44 L100 16 M38 26 L26 10 M128 22 L142 8'/></g><g fill='none' stroke='%23162a1e' stroke-width='2'><path d='M12 120 L12 72 M12 84 L0 60 M12 80 L30 58 M148 120 L148 78 M148 88 L160 66 M148 86 L132 62'/></g></svg>");
- background-size:160px 120px;mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 62%,transparent 100%);
- -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 62%,transparent 100%)}
+.treeArt::after{content:'';position:absolute;inset:0;opacity:.62;filter:blur(.7px);
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='150' viewBox='0 0 200 150'><g fill='none' stroke='%232b4835' stroke-linecap='round'><path d='M100 150 C98 120 102 104 100 86' stroke-width='7'/><path d='M100 96 C88 84 74 72 58 56' stroke-width='5'/><path d='M100 90 C114 78 130 68 146 50' stroke-width='5'/><path d='M58 56 C48 44 42 34 36 22' stroke-width='3.2'/><path d='M58 58 C62 42 64 32 68 18' stroke-width='3'/><path d='M146 50 C156 38 162 28 168 16' stroke-width='3.2'/><path d='M146 52 C142 38 140 28 136 14' stroke-width='3'/><path d='M36 22 C30 15 26 11 20 5' stroke-width='2'/><path d='M168 16 C174 11 178 8 184 3' stroke-width='2'/></g><g fill='none' stroke='%231f3627' stroke-linecap='round'><path d='M14 150 C12 124 16 110 14 92' stroke-width='5'/><path d='M14 104 C6 92 2 82 0 70' stroke-width='3'/><path d='M14 100 C26 88 32 80 40 70' stroke-width='3'/><path d='M186 150 C188 122 184 108 186 94' stroke-width='5'/><path d='M186 106 C194 92 198 84 200 74' stroke-width='3'/><path d='M186 102 C176 90 170 82 162 72' stroke-width='3'/></g><g fill='none' stroke='%23182a1f' stroke-width='1.8' stroke-linecap='round'><path d='M68 150 C66 132 70 122 68 112 M132 150 C134 130 130 120 132 110 M46 150 C45 136 48 128 46 120 M154 150 C155 134 152 126 154 118'/></g></svg>");
+ background-size:200px 150px;background-position:center top;
+ mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.78) 52%,rgba(0,0,0,.26) 82%,transparent 100%);
+ -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.78) 52%,rgba(0,0,0,.26) 82%,transparent 100%)}
+/* labels keep their footing over the canopy */
+.daytabs button .tabTxt,.daytabs button .nodeN,.loctabs button .pillNum{
+ text-shadow:0 1px 3px rgba(0,0,0,.92),0 0 10px rgba(0,0,0,.75)}
+.daytabs button::before,.loctabs button::before{background:rgba(6,10,8,.72)}
 .treeWrap::after{content:'';position:absolute;left:0;right:0;bottom:0;height:34px;z-index:-1;
  background:linear-gradient(180deg,transparent,var(--bg))}
 .treeLines{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:visible}
-.treeLines path{fill:none;stroke:var(--goldLine);stroke-width:1.1}
-.treeLines path.live{stroke:rgba(240,194,104,.85);stroke-width:1.4;filter:drop-shadow(0 0 3px rgba(240,194,104,.5))}
-.treeLines circle{fill:var(--gold);opacity:.55}
+.treeLines path{fill:none;stroke:rgba(223,174,82,.55);stroke-width:1.5;stroke-linecap:round}
+.treeLines path.live{stroke:rgba(248,208,126,.95);stroke-width:2;filter:drop-shadow(0 0 4px rgba(248,208,126,.55))}
+.treeLines circle{fill:var(--gold);opacity:.7}
 .treeLines circle.live{opacity:1;filter:drop-shadow(0 0 4px rgba(240,194,104,.8))}
 
 /* ---- location nodes (the top branch) ---- */
-.top .daytabs,.daytabs{background:transparent;padding:14px 0 20px;margin:0;gap:14px;scroll-snap-type:x proximity}
+.top .daytabs,.daytabs{background:transparent;padding:9px 0 13px;margin:0;gap:13px;scroll-snap-type:x proximity}
 .daytabs button,.top .daytabs button{position:relative;background:transparent;color:var(--muted);
  border:0;border-radius:0;padding:0;font-size:9px;letter-spacing:.11em;scroll-snap-align:center;
- display:flex;flex-direction:column;align-items:center;gap:7px;min-width:62px;max-width:92px}
+ display:flex;flex-direction:column;align-items:center;gap:5px;min-width:58px;max-width:88px}
 .daytabs button .tabTxt{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
  max-width:88px;font-size:8.5px;font-weight:900;letter-spacing:.11em;color:var(--muted)}
 /* what is left to shoot here, read at a glance from inside the ring */
 .daytabs button .nodeN{position:absolute;top:0;left:50%;transform:translateX(-50%);
- width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+ width:38px;height:38px;display:flex;align-items:center;justify-content:center;
  font-size:12px;font-weight:950;letter-spacing:.01em;color:var(--muted);pointer-events:none}
 .daytabs button.on .nodeN{color:var(--goldHi)}
 .daytabs button .nodeN.done{color:var(--gold);font-size:14px}
 .daytabs button .nodeN.empty{color:var(--faint);opacity:.5}
-.daytabs button::before{content:'';order:-1;width:44px;height:44px;border-radius:50%;
+.daytabs button::before{content:'';order:-1;width:38px;height:38px;border-radius:50%;
  border:1px solid var(--goldLine);background:rgba(10,14,12,.55);
  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
  transition:box-shadow .2s ease,border-color .2s ease,background .2s ease}
@@ -606,14 +620,14 @@ html,body{background:#000;color:var(--ink)}
 
 /* ---- scene nodes (the lower branch) — numbers stay the rhythm ---- */
 .stripRow{gap:7px;padding-top:2px}
-.loctabs{gap:14px;padding:16px 0 0;overflow-x:auto;scroll-snap-type:x proximity}
+.loctabs{gap:13px;padding:10px 0 0;overflow-x:auto;scroll-snap-type:x proximity}
 .loctabs button{position:relative;background:transparent;color:var(--muted);border:0;border-radius:0;
  padding:0;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:40px;
  scroll-snap-align:center;transition:color .16s ease}
-.loctabs button::before{content:'';order:-1;width:34px;height:34px;border-radius:50%;
+.loctabs button::before{content:'';order:-1;width:30px;height:30px;border-radius:50%;
  border:1px solid var(--goldLine);background:rgba(10,14,12,.55);
  transition:box-shadow .2s ease,border-color .2s ease,background .2s ease}
-.loctabs button .pillNum{position:absolute;top:0;left:0;right:0;height:34px;margin:0;
+.loctabs button .pillNum{position:absolute;top:0;left:0;right:0;height:30px;margin:0;
  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;
  color:var(--muted);letter-spacing:.04em}
 .loctabs button.on::before{border-color:var(--goldHi);background:rgba(217,164,65,.10);
@@ -623,22 +637,22 @@ html,body{background:#000;color:var(--ink)}
 .loctabs button.locdone{opacity:.45}
 .loctabs button .locTick{margin:0;font-size:8px;color:var(--gold);line-height:1}
 #editBtn{background:rgba(217,164,65,.10);color:var(--gold);border:1px solid var(--goldLine);
- border-radius:13px;margin:16px 0 0;align-self:flex-start;min-height:32px;padding:6px 13px}
+ border-radius:13px;margin:10px 0 0;align-self:flex-start;min-height:30px;padding:6px 12px}
 #editBtn.on{background:var(--gold);color:#140f04;border-color:var(--gold);box-shadow:0 0 14px rgba(217,164,65,.35)}
 
 /* ---- the one heading strip, and the position / all-locations control ---- */
-.headStrip{display:flex;justify-content:center;margin:12px 0 0;min-height:0}
+.headStrip{display:flex;justify-content:center;margin:9px 0 0;min-height:0}
 .headStrip[hidden]{display:none}
-.headStrip button{display:inline-flex;align-items:center;gap:9px;max-width:100%;min-height:36px;
+.headStrip button{display:inline-flex;align-items:center;gap:8px;max-width:100%;min-height:32px;
  border:1px solid var(--goldLine);border-radius:9px;background:rgba(10,14,12,.62);
  -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
- color:var(--goldHi);padding:8px 16px;font-size:10.5px;font-weight:900;letter-spacing:.13em;
+ color:var(--goldHi);padding:6px 14px;font-size:10.5px;font-weight:900;letter-spacing:.12em;
  text-transform:uppercase;line-height:1.2}
 .headStrip button svg{flex:0 0 auto;opacity:.75}
 .headStrip button span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .headStrip button:active{background:rgba(217,164,65,.14)}
-.allLocBtn{display:none;margin:10px auto 0;border:1px solid var(--goldFaint);border-radius:8px;
- background:transparent;color:var(--muted);padding:6px 12px;min-height:28px;
+.allLocBtn{display:none;margin:7px auto 0;border:1px solid var(--goldFaint);border-radius:8px;
+ background:transparent;color:var(--muted);padding:5px 11px;min-height:24px;
  font-size:8.5px;font-weight:900;letter-spacing:.15em;white-space:nowrap}
 .allLocBtn.live{display:block}
 .allLocBtn b{color:var(--goldHi);font-weight:900}
@@ -677,15 +691,18 @@ body.navmin #editBtn,body.hdrmin #editBtn{margin-top:7px}
 body.navmin .top,body.hdrmin .top{padding-bottom:4px}
 
 /* ---- location summary ---- */
-.dayrow{margin-top:10px;padding:11px 12px;border:1px solid var(--goldLine);border-radius:11px;
- background:rgba(13,16,17,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
- align-items:center;row-gap:6px}
-.dayrow>.daytitle{flex:1 1 auto;min-width:0}
-.daytitle{font-size:20px;letter-spacing:.03em;color:var(--ink)}
+.dayrow{margin-top:8px;padding:8px 10px;border:1px solid var(--goldLine);border-radius:10px;
+ background:rgba(13,16,17,.80);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+ align-items:center;row-gap:4px}
+/* name and controls share a line; only the counter drops below */
+.dayrow>.daytitle{flex:1 1 auto;min-width:0;order:1}
+.dayrow>*:last-child{order:2}
+.dayrow>.dayprogress{order:3}
+.daytitle{font-size:17px;letter-spacing:.03em;color:var(--ink)}
 .daytitle .astro{color:var(--faint)}
 .dayprogress{flex:1 1 100%;color:var(--muted);padding-left:0!important}
 .dayprogress b,.dayprogress strong{color:var(--goldHi)}
-.progressbar{background:rgba(217,164,65,.14);margin-top:9px}
+.progressbar{background:rgba(223,174,82,.18);margin-top:6px}
 .progressbar>i{background:linear-gradient(90deg,var(--gold),var(--goldHi))}
 #pickBtn,#filterBtn{border-color:var(--goldLine);color:var(--muted);background:transparent}
 #pickBtn.on,#filterBtn.on{background:rgba(217,164,65,.14);border-color:var(--goldHi);color:var(--goldHi)}
@@ -713,7 +730,7 @@ body.navmin #hdrToggle,body.hdrmin #hdrToggle{background:var(--gold);border-colo
    display:contents flattens the h2 / slate / stats wrappers so every field
    becomes a cell of the same flex row, sharing one border run. The wrappers
    stay in the DOM, so the drag grips, the editors and EDIT mode are untouched. */
-.locSection{background:var(--panel);margin:0 9px 16px;border:1px solid var(--goldLine);
+.locSection{background:var(--panel);margin:0 8px 11px;border:1px solid var(--goldLine);
  border-radius:11px;box-shadow:0 1px 0 rgba(217,164,65,.06),0 6px 22px rgba(0,0,0,.5)}
 .locSection.live{border-color:rgba(217,164,65,.55);box-shadow:0 0 0 1px rgba(217,164,65,.18),0 6px 26px rgba(0,0,0,.6)}
 .locationHead{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:flex-start;gap:0;padding:0;margin:0;
@@ -729,9 +746,9 @@ body.navmin #hdrToggle,body.hdrmin #hdrToggle{background:var(--gold);border-colo
 body.editmode .locationHead .headDel{display:inline-flex}
 .locationHead>*,.locationHead .slIE,.locationHead .slPlace,.locationHead .slTime,
 .locationHead .slNo,.locationHead .locNum,.locationHead .stats{
- display:flex;align-items:center;min-height:46px;padding:9px 11px;border:0;border-radius:0;
+ display:flex;align-items:center;min-height:40px;padding:7px 10px;border:0;border-radius:0;
  border-right:1px solid var(--rule);background:transparent;line-height:1.15}
-.locationHead .locNum{flex:0 0 auto;justify-content:center;min-width:48px;font-size:15px;font-weight:950;
+.locationHead .locNum{flex:0 0 auto;justify-content:center;min-width:42px;font-size:15px;font-weight:950;
  color:var(--gold);letter-spacing:.03em;background:rgba(217,164,65,.07)}
 .locationHead .slIE{flex:0 0 auto;font-size:9px;letter-spacing:.14em;color:var(--muted);font-weight:900}
 .locationHead .slPlace{flex:1 1 90px;min-width:0;font-size:16px;font-weight:950;color:var(--ink);
@@ -742,12 +759,12 @@ body.editmode .locationHead .headDel{display:inline-flex}
 .locationHead .slNo b{color:var(--gold)}
 /* The counts and the timer always take the line below the slate, at every
    width, so one card's geometry is the next card's geometry. */
-.locationHead .stats{flex:1 1 auto;min-width:0;min-height:34px;justify-content:flex-start;
+.locationHead .stats{flex:1 1 auto;min-width:0;min-height:28px;justify-content:flex-start;
  font-size:9.5px;font-weight:900;color:var(--muted);text-align:left;white-space:nowrap;
  letter-spacing:.07em;line-height:1.35;border-top:0;border-right:0;overflow:hidden}
 .locationHead .stats span+span{margin-left:11px;padding-left:11px;border-left:1px solid var(--rule)}
 .locationHead .stats span+span{color:var(--ink)}
-.locationHead .durBtn{flex:0 0 auto;min-height:34px;margin:0;padding:0 14px;border:0;
+.locationHead .durBtn{flex:0 0 auto;min-height:28px;margin:0;padding:0 12px;border:0;
  border-left:1px solid var(--rule);border-radius:0;
  background:transparent;color:var(--muted);font-size:11px}
 .locationHead .durBtn.setv{background:transparent;color:var(--goldHi)}
@@ -759,8 +776,8 @@ body.editmode .locationHead .headDel{width:24px;height:24px;min-height:0;padding
  background:rgba(217,164,65,.16);color:var(--goldHi)}
 /* ISLAND and PREP names are free-form, so there is no slate to box — the name
    itself becomes the strong cell and the row is simply shorter. */
-.locationHead .locName{flex:1 1 120px;min-width:0;display:flex;align-items:center;min-height:46px;
- padding:9px 11px;font-size:16px;font-weight:950;color:var(--ink);letter-spacing:.02em;
+.locationHead .locName{flex:1 1 120px;min-width:0;display:flex;align-items:center;min-height:40px;
+ padding:7px 10px;font-size:16px;font-weight:950;color:var(--ink);letter-spacing:.02em;
  text-decoration-color:var(--goldLine);overflow-wrap:anywhere}
 .locationHead .locName.raw{display:none;font-size:13px}
 body.editmode .locationHead .locName.raw{display:flex}
@@ -771,14 +788,14 @@ body.editmode .locationHead .slate{display:none}
 .empty{background:transparent;border-color:rgba(217,164,65,.22);color:var(--faint)}
 
 /* ---- shot-group row ---- */
-.scene{margin:10px 9px 12px;padding-top:0;border-top:0}
-.sceneHead{display:flex;align-items:stretch;gap:0;margin:0 0 9px;padding:0;
+.scene{margin:8px 8px 9px;padding-top:0;border-top:0}
+.sceneHead{display:flex;align-items:stretch;gap:0;margin:0 0 6px;padding:0;
  border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.015)}
-.sceneHead>*{display:flex;align-items:center;min-height:40px;padding:8px 11px}
+.sceneHead>*{display:flex;align-items:center;min-height:34px;padding:6px 10px}
 .sceneHead .sceneName{flex:1 1 auto;min-width:0;font-size:11.5px;font-weight:950;letter-spacing:.07em;
  color:var(--ink);text-transform:uppercase;text-decoration:none;border-right:1px solid var(--rule)}
 .sceneHead .sceneRight{flex:0 0 auto;gap:0;padding:0}
-.sceneHead .sceneRight>*{min-height:40px;display:inline-flex;align-items:center;padding:0 11px;
+.sceneHead .sceneRight>*{min-height:34px;display:inline-flex;align-items:center;padding:0 10px;
  border-right:1px solid var(--rule);margin:0}
 .sceneHead .sceneRight>*:last-child{border-right:0}
 .sceneHead .durBtn{border:0;border-right:1px solid var(--rule);border-radius:0;background:transparent;
@@ -797,11 +814,11 @@ body.editmode .sceneHead .headDel{width:24px;height:24px;border:1px solid var(--
 .sceneMoved{background:rgba(217,164,65,.14);color:var(--goldHi)}
 
 /* ---- shot cards ---- */
-.shots{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.shots{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 @media (max-width:339px){.shots{grid-template-columns:minmax(0,1fr)}}
 @media (min-width:620px){.shots{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.shot{background:var(--panel2);border:1px solid rgba(255,255,255,.07);border-radius:9px;
- padding:13px 10px 40px;min-height:112px;color:var(--ink);overflow:hidden}
+.shot{background:var(--panel2);border:1px solid rgba(255,255,255,.14);border-radius:8px;
+ padding:8px 8px 31px;min-height:86px;color:var(--ink);overflow:hidden}
 .shot.fx30,.shot.camera{--strip:#2f9bff}
 .shot.mavic{--strip:#52c48d} .shot.fpv{--strip:#f0954a}
 .shot.gopro{--strip:#e8c63a} .shot.mission{--strip:#a98ad6}
@@ -816,18 +833,18 @@ body.editmode .sceneHead .headDel{width:24px;height:24px;border:1px solid var(--
 /* One blue for every shot title. The rig still has its colour — it owns the bar
    along the top and the camera icon in the foot — but twelve title colours in a
    grid was the thing that made the old pastel cards read as mush. */
-.shotLabel{font-size:11px;line-height:1.2;color:var(--blue);letter-spacing:.05em;
- padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.08)}
+.shotLabel{font-size:11px;line-height:1.16;color:var(--blue);letter-spacing:.05em;
+ padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.14)}
 .shotFoot .cam{color:var(--strip,var(--muted))}
-.shotDetail{font-size:10.5px;line-height:1.32;color:#c9c7c0;font-weight:500;margin-top:9px;
+.shotDetail{font-size:10.5px;line-height:1.26;color:#e2e0d9;font-weight:500;margin-top:6px;
  text-transform:none}
 .shotDetail.empty2{margin-top:0;border:0}
-.meta{color:var(--faint);font-size:8px;letter-spacing:.1em;margin-top:9px;
- padding-top:8px;border-top:1px solid rgba(255,255,255,.07)}
+.meta{color:var(--faint);font-size:8px;letter-spacing:.1em;margin-top:6px;
+ padding-top:5px;border-top:1px solid rgba(255,255,255,.12)}
 .shot.done{opacity:.4;filter:grayscale(.6)}
 .shot.done:after{color:var(--goldHi)}
-.shotFoot{left:10px;right:8px;bottom:0;height:38px;display:flex;align-items:center;gap:0;
- border-top:1px solid rgba(255,255,255,.08)}
+.shotFoot{left:8px;right:7px;bottom:0;height:30px;display:flex;align-items:center;gap:0;
+ border-top:1px solid rgba(255,255,255,.14)}
 /* Four 44px squares will not fit across a 172px shot card. The drawn control
    stays small and the finger target is grown under it — vertically, where
    there is room, and never sideways into the neighbouring control. */
@@ -835,10 +852,10 @@ body.editmode .sceneHead .headDel{width:24px;height:24px;border:1px solid var(--
 .shotFoot .cam::after,.shotFoot .previsBtn::after,.shotFoot .moveBtn::after{
  content:'';position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
 .shotFoot .moveBtn::after{left:-7px;right:-7px}
-.shotFoot .num{font-size:10px;font-weight:950;color:var(--ink);padding-right:11px;
- border-right:1px solid rgba(255,255,255,.08)}
+.shotFoot .num{font-size:10px;font-weight:950;color:var(--ink);padding-right:9px;
+ border-right:1px solid rgba(255,255,255,.14)}
 .shotFoot .cam,.shotFoot .previsBtn{display:inline-flex;align-items:center;justify-content:center;
- width:32px;height:32px;color:var(--muted);border-right:1px solid rgba(255,255,255,.08);
+ width:30px;height:30px;color:var(--muted);border-right:1px solid rgba(255,255,255,.14);
  border-top:0;border-left:0;border-bottom:0;background:transparent;border-radius:0;padding:0}
 .shotFoot .cam svg{fill:currentColor;stroke:currentColor;width:16px;height:12px}
 .shotFoot .previsBtn svg{display:block}
@@ -850,7 +867,7 @@ body.editmode .sceneHead .headDel{width:24px;height:24px;border:1px solid var(--
 .previsWrap img{display:block;width:100%;height:auto}
 .shot .rescheduledTag{color:var(--faint);margin-top:7px}
 .addedTag{background:rgba(217,164,65,.16);color:var(--goldHi)}
-.addTile{color:var(--gold);min-height:112px}
+.addTile{color:var(--gold);min-height:86px}
 .addTile:active,.addTile:focus-visible{opacity:.5}
 .addTile.addLoc{min-height:44px}
 body.editmode .shot:not(.editHost){box-shadow:inset 0 0 0 1.5px rgba(217,164,65,.45)}
@@ -860,7 +877,7 @@ body.editmode .locName,body.editmode .sceneName{background:rgba(255,255,255,.05)
  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
 body.editmode .locNum{background:rgba(217,164,65,.14)}
 [data-edit].editing{outline-color:var(--goldHi);background:#17191a;color:var(--ink)}
-.dragGhost{padding:13px 10px 40px}
+.dragGhost{padding:8px 8px 31px}
 #dropCaret{background:var(--goldHi);box-shadow:0 0 10px rgba(240,194,104,.9)}
 #headDropLine{background:var(--goldHi)}
 .hdrop{outline-color:var(--goldHi)}
@@ -916,7 +933,7 @@ button:focus-visible{outline:2px solid var(--goldHi);outline-offset:2px}
 /* ---- desktop: keep the working column, widen the branches ---- */
 @media (min-width:620px){
  #app{max-width:620px}
- .shot{min-height:120px}
+ .shot{min-height:100px}
  .daytabs{gap:22px}
  .loctabs{gap:18px}
 }
@@ -1025,7 +1042,7 @@ button:focus-visible{outline:2px solid var(--goldHi);outline-offset:2px}
   <button id="backupBtn">Backup / move to another device</button>
   <button id="hapticBtn" class="secondary">Haptics: on</button>
   <button id="updateBtn">Check for update</button>
-  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-10-08-A</button>
+  <button id="buildStamp" class="secondary" style="opacity:.7;font-size:10px;letter-spacing:.08em">BUILD 2026-10-08-B</button>
   <button id="closeSheet" class="secondary">Close</button>
 </div></div>
 <div class="sheet" id="durSheet"><div class="sheetBox">
@@ -4014,37 +4031,49 @@ window.APPBRIDGE={
   // node radius is whatever the CSS circle actually is
   const rad=el=>Math.min(el.getBoundingClientRect().width,46)/2;
 
+  /* Branches, not plumbing. Every run is a cubic: the location row is one
+     continuous limb that sags between nodes the way a branch does, and the
+     scene nodes hang off the selected location on curves that leave it
+     vertically and arrive vertically, so the splay reads as growth rather
+     than as a wiring diagram. */
+  const f=v=>v.toFixed(1);
+  const dots=[];
   if(onDay&&vis(onDay)){
    const c=pt(onDay,.5,0), n=rad(onDay), cy=c.y+n;
-   // siblings lean in towards the selected node
-   days.forEach(b=>{ if(b===onDay||!vis(b)) return;
-     const s=pt(b,.5,0), sy=s.y+rad(b), mid=(s.x+c.x)/2;
-     d.push({p:`M${s.x.toFixed(1)} ${sy.toFixed(1)} C${mid.toFixed(1)} ${sy.toFixed(1)} ${mid.toFixed(1)} ${cy.toFixed(1)} ${(c.x+(s.x<c.x?-n:n)).toFixed(1)} ${cy.toFixed(1)}`});
-   });
+   // one limb threaded through every sibling, dipping between them
+   const row=days.filter(vis).map(b=>({b,x:pt(b,.5,0).x,y:pt(b,.5,0).y+rad(b),r:rad(b)}))
+                 .sort((a,z)=>a.x-z.x);
+   for(let i=0;i<row.length-1;i++){
+    const a=row[i], z=row[i+1];
+    const sag=Math.min(11,(z.x-a.x)*.10);
+    const x1=a.x+a.r, x2=z.x-z.r, mx=(x1+x2)/2;
+    d.push({p:`M${f(x1)} ${f(a.y)} C${f(mx-(x2-x1)*.22)} ${f(a.y+sag)} ${f(mx+(x2-x1)*.22)} ${f(z.y+sag)} ${f(x2)} ${f(z.y)}`,
+            live:a.b===onDay||z.b===onDay});
+    dots.push({x:mx,y:(a.y+z.y)/2+sag*.75,r:1.9,live:a.b===onDay||z.b===onDay});
+   }
    if(locs.length){
-    const top=pt(locs[0],.5,0).y;
-    const stem=Math.max(cy+4,(cy+top)/2);
-    d.push({p:`M${c.x.toFixed(1)} ${(c.y+n*2).toFixed(1)} L${c.x.toFixed(1)} ${stem.toFixed(1)}`,live:true});
-    let first=null,last=null;
-    locs.forEach(b=>{ if(!vis(b)) return;
-      const s=pt(b,.5,0);
-      if(first===null) first=s.x; last=s.x;
-      d.push({p:`M${s.x.toFixed(1)} ${stem.toFixed(1)} L${s.x.toFixed(1)} ${s.y.toFixed(1)}`,
+    const from={x:c.x,y:c.y+n*2};
+    dots.push({x:from.x,y:from.y,r:2.6,live:true});
+    const ai=locs.indexOf(onLoc);
+    locs.forEach((b,bi)=>{ if(!vis(b)) return;
+      // a tree forks to what is near it; a line to the twentieth node is a cable
+      if(ai>=0&&Math.abs(bi-ai)>3) return;
+      const s=pt(b,.5,0), dy=Math.max(14,s.y-from.y);
+      d.push({p:`M${f(from.x)} ${f(from.y)} C${f(from.x)} ${f(from.y+dy*.52)} ${f(s.x)} ${f(s.y-dy*.58)} ${f(s.x)} ${f(s.y)}`,
               live:b===onLoc});
     });
-    if(first!==null) d.push({p:`M${Math.min(first,c.x).toFixed(1)} ${stem.toFixed(1)} L${Math.max(last,c.x).toFixed(1)} ${stem.toFixed(1)}`});
    }
   }
 
   // the active scene's branch carries on down towards its card
   const strip=$$('headStrip');
   if(onLoc&&vis(onLoc)&&strip&&!strip.hidden&&strip.offsetParent){
-   const s=pt(onLoc,.5,1), t=pt(strip,.5,0);
-   d.push({p:`M${s.x.toFixed(1)} ${s.y.toFixed(1)} L${s.x.toFixed(1)} ${((s.y+t.y)/2).toFixed(1)} L${t.x.toFixed(1)} ${((s.y+t.y)/2).toFixed(1)} L${t.x.toFixed(1)} ${t.y.toFixed(1)}`,live:true});
+   const s=pt(onLoc,.5,1), t=pt(strip,.5,0), dy=Math.max(10,t.y-s.y);
+   d.push({p:`M${f(s.x)} ${f(s.y)} C${f(s.x)} ${f(s.y+dy*.55)} ${f(t.x)} ${f(t.y-dy*.55)} ${f(t.x)} ${f(t.y)}`,live:true});
   }
 
   svg.innerHTML=d.map(o=>`<path d="${o.p}"${o.live?' class="live"':''}/>`).join('')
-   + (onDay&&vis(onDay)?`<circle cx="${pt(onDay,.5,0).x.toFixed(1)}" cy="${(pt(onDay,.5,0).y+rad(onDay)).toFixed(1)}" r="2.4" class="live"/>`:'');
+   + dots.map(o=>`<circle cx="${f(o.x)}" cy="${f(o.y)}" r="${o.r}"${o.live?' class="live"':''}/>`).join('');
  }
 
  /* ---- the one heading strip, and the position indicator ---- */
@@ -4153,8 +4182,8 @@ window.APPBRIDGE={
   const sc=$$('scroller'); if(!sc) return;
   sc.addEventListener('scroll',()=>{
    const y=sc.scrollTop;
-   if(y>96&&y>lastY+6) setNavMin(true);
-   else if(y<40||y<lastY-24) setNavMin(false);
+   if(y>52&&y>lastY+5) setNavMin(true);
+   else if(y<18||y<lastY-30) setNavMin(false);
    lastY=y;
   },{passive:true});
   // the breadcrumb is the way back up; the header's own toggle stays the
