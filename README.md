@@ -113,26 +113,6 @@ Every delete asks first and names what it is taking.
 
 ## Gotchas — each of these cost a debugging session
 
-**The scene header is a `display:contents` grid.** `.locationHead h2`,
-`.slate`, `.slMain` and `.locationHead .statsWrap` are flattened so the slate
-fields become cells of one flex row sharing one border run. Two traps follow.
-First, `display:contents` elements generate no box, so `.locationHead>*` does
-not reach the cells inside them — a cell needs its own selector. Second,
-`.locationHead>*` sets `display:flex` and will happily override
-`.headDel{display:none}` on equal specificity, which is how a stray empty box
-and a visible bin appeared outside EDIT mode. Anything that must stay hidden
-needs restating as `.locationHead .thing{display:none}`.
-
-**The branches are measured, never stored.** `drawTree()` reads live rects and
-redraws; it is the only thing that knows where a node is. Anything that moves a
-node — a render, a rail scroll, a resize, a collapse — has to call
-`window.treeSync()` afterwards or the lines point at where the node used to be.
-
-**A rail inside a flex row needs `flex:1 1 auto;min-width:0`.** `.daytabs`
-carries `flex:0 0 auto` from the old layout, which sizes it to its content, so
-`overflow-x:auto` has nothing to scroll and seventeen locations are silently
-clipped instead of swiping.
-
 **Ticking must not call `render()`.** It destroys the node between clicks and
 kills double-tap editing. `toggleDone` updates in place.
 
